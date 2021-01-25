@@ -9,26 +9,25 @@ const Product = ({product}) => {
            <CardMedia className={classes.media} image={product.image} title ={product.name} />
            <CardContent>
                <div className={classes.cardContent}>
-                   <Typography variant='h5' gutterBottom>
-                    {product.name}
-                   </Typography>
-                   <div/>
-                    <Typography variant ='h4' >
-                        {product.description}
+                    <Typography variant='h5' gutterBottom>
+                            {product.name}
+                        </Typography>
+                    <Typography variant ='body2'  >
+                            {product.price}
                     </Typography>
                </div>
-               <div className="shopping-card">
-                   <CardActions disableSpacing className={classes.CardActions}>
-                       <Typography variant ='body2' >
-                           {product.price}
-                       </Typography>
-
+            
+                     <Typography variant ='body2' color = 'secondary' >
+                            {product.description}
+                    </Typography>
+           </CardContent>
+               
+                   <CardActions disableSpacing className={classes.cardActions}>
                     <IconButton aria-label='Add to card'>
                         <AddShoppingCart/>
                     </IconButton>
                    </CardActions>
-               </div>
-           </CardContent>
+               
        </Card>
     )
 }
