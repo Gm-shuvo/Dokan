@@ -1,10 +1,7 @@
 import React from 'react';
-import {AppBar,Badge,IconButton,Toolbar,
-  Typography,
-  
- } from '@material-ui/core';
+import {AppBar,Badge,IconButton,Toolbar,Typography} from '@material-ui/core';
 import useStyles from './NavigationStyle'
-
+import { Link } from "react-router-dom";
 import { ShoppingCart } from '@material-ui/icons';
 
 const Navigation =() =>{
@@ -19,7 +16,7 @@ const Navigation =() =>{
           </Typography>
           <div className={classes.grow}/>
           <div className = {classes.button}>
-            <IconButton aria-label='show cart item ' color ='inherit'>
+            <IconButton aria-label='show cart item ' color ='inherit' component={Link} to='/cart'>
               <Badge badgeContent={4} color='secondary'>
                 <ShoppingCart/>
               </Badge>
