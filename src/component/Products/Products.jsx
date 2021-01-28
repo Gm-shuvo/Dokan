@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { Grid } from "@material-ui/core";
 import Product from "../Products/product/Product";
 import useStyles from "./ProductsStyle";
 
 
-const Products = ({productList,onAddToCart}) => {
+const Products = ({productList, onAddToCart}) => {
     const classes = useStyles()
 return(
     <main className={classes.root}>
@@ -15,7 +15,6 @@ return(
                             <Product product={product} onAddToCart={ onAddToCart}/>
                         </Grid>
                     )
-                        
                     )
                 }
             </Grid>

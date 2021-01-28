@@ -7,28 +7,28 @@ const Product = ({product,onAddToCart}) => {
     const classes = useStyle() 
     
     return (
-       <Card className ={classes.root}>
-           <CardMedia className={classes.media} image={product.media.source} title ={product.name} />
-           <CardContent>
-               <div className={classes.cardContent}>
-                    <Typography variant='h5' gutterBottom>
-                            {product.name}
+        <div className={classes.container}>
+        <Card className ={classes.root}>
+            <CardMedia className={classes.media} image={product.media.source} title ={product.name} />
+            <CardContent>
+                <div className={classes.cardContent}>
+                        <Typography variant='h5' gutterBottom>
+                                {product.name}
+                            </Typography>
+                        <Typography variant ='body2'  >
+                                {product.price.formatted_with_symbol}
                         </Typography>
-                    <Typography variant ='body2'  >
-                            {product.price.formatted_with_symbol}
-                    </Typography>
-               </div>
-            
-                     <Typography variant ='body2' color = 'secondary' dangerouslySetInnerHTML ={ { __html: product.description}} />
-           </CardContent>
-
-           <CardActions disableSpacing className={classes.cardActions} >
-                <IconButton aria-label='Add to card'  onClick={()=> onAddToCart(product.id,1)} >
-                    <AddShoppingCart/>
-                </IconButton>
-            </CardActions>
-               
-       </Card>
+                </div>                
+                        <Typography variant ='body2' color = 'secondary' dangerouslySetInnerHTML ={ { __html: product.description}} />
+            </CardContent>
+            <CardActions disableSpacing className={classes.cardActions} >
+                    <IconButton aria-label='Add to card'  onClick={()=> onAddToCart(product.id,1)} >
+                        <AddShoppingCart/>
+                    </IconButton>
+                </CardActions>
+                
+        </Card>
+       </div>
     )
 }
 
