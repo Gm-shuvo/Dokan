@@ -4,7 +4,7 @@ import  CartItem  from "./CartItem/CartItem";
 import useStyles from './CartItemsStyle'
 const CartItems = ({cartItems,handleUpdateCart,handleRemoveCart,handleEmptyCart}) => {
     const classes = useStyles()
-    const isEmpty =  cartItems.line_items.lenght
+   // const isEmpty =  cartItems.line_items.lenght
     
     const IsEmptyCart =()=>{
         return(
@@ -31,10 +31,10 @@ const CartItems = ({cartItems,handleUpdateCart,handleRemoveCart,handleEmptyCart}
 
                     </Typography>
                     <div>
-                        <Button size='large' color='secondary'className={classes.emptyButton} onClick={handleEmptyCart}>
+                        <Button size='large' color='secondary'className={classes.emptyButton} onClick={()=>handleEmptyCart()}>
                             EmptyCard
                         </Button>
-                        <Button size='large' color='primary'className={classes.checkoutButton} onClick={''}>
+                        <Button size='large' color='primary'className={classes.checkoutButton}>
                             Checkout
                         </Button>
                     </div>
@@ -48,12 +48,12 @@ const CartItems = ({cartItems,handleUpdateCart,handleRemoveCart,handleEmptyCart}
     <>
         <Container className={classes.root}>
             <div className='classes.title'>
-                <Typography variant='subtitle1' >
+                <Typography variant='h4' >
                     Your CardItemsList...
                 </Typography>
             </div>
-
-            { isEmpty ? <IsEmptyCart/> : <Filledcart/>}
+            <div className={classes.devider}></div>
+            { !cartItems.total_items ? <IsEmptyCart/> : <Filledcart/>}
         </Container>
        
     </>

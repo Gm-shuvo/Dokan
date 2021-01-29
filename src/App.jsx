@@ -18,7 +18,6 @@ const App =() =>{
 
   //fetching cartitems
   const fetchCartItems = async()=>{
-	
 	  setcartItems(await commerce.cart.retrieve())
   }
   //console.log(cartItems);
@@ -29,9 +28,8 @@ const App =() =>{
 	setcartItems(cart)
   }
 
-
-  const handleUpdateCart = async (productId, {quantity})=>{
-    const {cart} = await commerce.cart.update(productId,quantity)
+  const handleUpdateCart = async (productId, quantity)=>{
+    const {cart} = await commerce.cart.update(productId, {quantity})
     setcartItems(cart)
   }
 
@@ -40,8 +38,8 @@ const App =() =>{
     setcartItems(cart)
   }
 
-  const handleEmptyCart = async (productId)=>{
-    const {cart} = await commerce.cart.empty(productId)
+  const handleEmptyCart = async ()=>{
+    const {cart} = await commerce.cart.empty()
     setcartItems(cart)
   }
   //console.log(cartItems);

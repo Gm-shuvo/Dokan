@@ -32,4 +32,9 @@ export default makeStyles((theme) => ({
     width: '100%',
     justifyContent: 'space-between',
   },
+  devider:{
+    content:'',
+    borderBottom:'1px solid ',
+    margin:'20px'
+  }
 }));

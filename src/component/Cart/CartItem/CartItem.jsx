@@ -20,13 +20,13 @@ const CartItem = ({cartItem,handleUpdateCart,
                 </CardContent>
                 <CardActions className={classes.CardActions}>
                     <div className={classes.buttons} >
-                         <Button size='large' color='primary'className={classes.Button} onClick={()=> handleUpdateCart(cartItem.id, cartItem.quantity -1) }>
+                         <Button type ='button' size='large' color='primary'className={classes.Button} onClick={()=> handleUpdateCart(cartItem.id, cartItem.quantity - 1) }>
                             -
                         </Button>
                         <Typography variant='body2' >
                             {cartItem.quantity}
                         </Typography>
-                        <Button size='large' color='primary'className={classes.Button} onClick={()=> handleUpdateCart(cartItem.id, cartItem.quantity +1) }>
+                        <Button type ='button' size='large' color='primary'className={classes.Button} onClick={()=> handleUpdateCart(cartItem.id, cartItem.quantity + 1) }>
                             +
                         </Button>
                     </div>

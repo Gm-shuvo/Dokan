@@ -11,13 +11,13 @@ const Navigation =({cartItems}) =>{
     <>
       <AppBar position="fixed" classes={classes.appBar} color ='inherit'>
         <Toolbar >
-          <Typography component={Link}  to='/' variant = 'h6' classes={classes.title}>
+          <Typography component={Link}  to='/' variant = 'h6' classes={classes.title} style={{textDecoration:'none'}}>
             ShopApp
           </Typography>
           <div className={classes.grow}/>
           <div className = {classes.button}>
             <IconButton aria-label='show cart item ' color ='inherit' component={Link} to='/cart'>
-              <Badge badgeContent={cartItems.lenght} color='secondary'>
+              <Badge badgeContent={cartItems.total_items} color='secondary'>
                 <ShoppingCart/>
               </Badge>
             </IconButton>
