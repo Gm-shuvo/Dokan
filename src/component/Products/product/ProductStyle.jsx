@@ -2,12 +2,14 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(()=>({
     root:{
-        maxWidth:'90%',
-        
+        maxWidth:'100%',
     },
     media:{
-        height:'20',
-        paddingTop:'56.25%'
+        height:'200',
+        width:'200',
+        paddingTop:'56.25%',
+        backgroundSize:'contain'
+
     },
     cardContent:{
       display:'flex',
@@ -18,4 +20,8 @@ export default makeStyles(()=>({
         display:'flex',
         justifyContent:'flex-end'
     },
+    name:{
+        textOverflow:'ellipsis',
+        overflow:'hidden'
+    }
 }))

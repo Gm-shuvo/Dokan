@@ -2,6 +2,9 @@ import { Button, Container, Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import  CartItem  from "./CartItem/CartItem";
 import useStyles from './CartItemsStyle'
+import { Link } from "react-router-dom";
+
+
 const CartItems = ({cartItems,handleUpdateCart,handleRemoveCart,handleEmptyCart}) => {
     const classes = useStyles()
    // const isEmpty =  cartItems.line_items.lenght
@@ -34,7 +37,7 @@ const CartItems = ({cartItems,handleUpdateCart,handleRemoveCart,handleEmptyCart}
                         <Button size='large' color='secondary'className={classes.emptyButton} onClick={()=>handleEmptyCart()}>
                             EmptyCard
                         </Button>
-                        <Button size='large' color='primary'className={classes.checkoutButton}>
+                        <Button size='large' color='primary'className={classes.checkoutButton} component= {Link} to= '/checkout'>
                             Checkout
                         </Button>
                     </div>
