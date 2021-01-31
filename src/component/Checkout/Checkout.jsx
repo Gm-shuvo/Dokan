@@ -19,26 +19,33 @@ const Checkout = ({cartItems}) => {
     // eslint-disable-next-line
     const [activeStep, setactiveStep] = useState(0)
 
-    // eslint-disable-next-line
+    
     const [token, settoken] = useState(null)
-	
-	useEffect(() => {
+    
+    
+
+    
+
+    useEffect(() => {
         const generateToken = async()=>{
-			try {
+            try {
                 const cartToken = await commerce.checkout.generateTokenFrom('cart',cartItems.id)
-                     settoken(cartToken)
-                   
+                console.log(cartToken);
+                settoken(cartToken)
+                    
             } catch (error) {
                 console.log({message: 'Generating token error'});
             }          
         }
         generateToken();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+        
+    }, [cartItems])
     
-    const Form =()=> (
-        activeStep === 0 ? <AddressForm token={token}/> : <PaymentForm/>
-    )
+    function Form() {
+        return (
+            activeStep === 0 ? <AddressForm checkoutToken={token} /> : <PaymentForm />
+        );
+    }
     return (
         <>
             <div className={classes.toolbar}/>
@@ -57,7 +64,7 @@ const Checkout = ({cartItems}) => {
                         }
                     </Stepper>
                     {
-                        activeStep === steps.length ? <ConfirmPage/> : <Form/>
+                        activeStep === steps.length ? <ConfirmPage/> : (token && <Form/>)
                     }
                 </Paper>
             </main>

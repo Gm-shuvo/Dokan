@@ -1,14 +1,31 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 // eslint-disable-next-line
 import { Typography,Grid, InputLabel, Select,MenuItem } from "@material-ui/core";
 import { useForm,FormProvider } from "react-hook-form";
 import FormInput from './CustomForm'
-// import { commerce } from "../../../lib/commerce";
+import { commerce } from "../../../lib/commerce";
 
-const AddressForm = () => {
+const AddressForm = ({checkoutToken}) => {
+	const [shippingCountries, setshippingCountries] = useState([])
+	const [shippingCountry, setshippingCountry] = useState('')
+	const [shippingSubdivisions, setshippingSubdivisions] = useState([])
+	const [shippingSubdivision, setshippingSubdivision] = useState('')
+	const [shippingOptions, setshippingOptions] = useState([])
+	const [shippingOption, setshippingOption] = useState('')
+
+	const methods = useForm()
 	
+	console.log(checkoutToken.id);
+	const fetchShippingCountries = async (checkoutTokenId) =>{
+		const {countries} = await commerce.services.localeListShippingCountries(checkoutTokenId)
+		console.log(countries);
+		setshippingCountries(countries)
+	}
 
-    const methods = useForm()
+	useEffect(() => {
+		fetchShippingCountries(checkoutToken.id)
+	}, [checkoutToken])
+
     return (
         <>
         <Typography variant ='h6' gutterBottom>
