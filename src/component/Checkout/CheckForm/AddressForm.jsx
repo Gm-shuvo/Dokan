@@ -16,13 +16,13 @@ const AddressForm = ({checkoutToken}) => {
 	const methods = useForm()
 	const countries = Object.entries(shippingCountries).map(([code,name])=>({id:code ,label:name})) 
 	const subdivisions = Object.entries(shippingSubdivisions).map(([code,name])=>({id:code ,label:name})) 
-	//console.log(checkoutToken.id);
-	// const Options = shippingOptions.map((option)=>)
+	console.log(checkoutToken.id);
+	 const Options = shippingOptions.map((option)=>({id: option.id, label: `${option.description} - (${option.price.formatted_with_symbol})` } ))
 
 	const fetchShippingCountries = async (checkoutTokenId) =>{
 		try {
-			const {countries} = await commerce.services.localeListCountries(checkoutTokenId)
-			//console.log(countries);
+			const {countries} = await commerce.services.localeListShippingCountries(checkoutTokenId)
+			console.log(countries);
 			setshippingCountries(countries)
 		} catch (error) {
 			console.log({message:'Fechting Countries error'});
@@ -39,26 +39,31 @@ const AddressForm = ({checkoutToken}) => {
 			console.log({message:'Fechting Subdivisions of Country error'});
 		}
 	}
-	const fetchingShippingOptions =async(checkoutTokenId,country = 'US')=>{
+	const fetchingShippingOptions =async(checkoutTokenId,country,region = null)=>{
 		try {
-			const Options = await commerce.checkout.getShippingOptions(checkoutTokenId,{country})
-			console.log(Options);
+			const Options = await commerce.checkout.getShippingOptions(checkoutTokenId, {
+				country,
+				region
+			})
+			console.log(
+				Options
+			);
 			setshippingOptions(Options)
 		} catch (error) {
 			console.log({message:'Fechting ShippingOptions of Country error'});
 		}
 	}
-	console.log(shippingCountry);
+	//console.log(shippingCountry);
 	useEffect(() => {
 		fetchShippingCountries(checkoutToken.id)
 	}, [])
 	
 	useEffect(() => {
-		fetchingShippingSubdivisions(shippingCountry)
+	if(shippingCountry)	fetchingShippingSubdivisions(shippingCountry)
 	}, [shippingCountry])
 
 	useEffect(() => {
-		if(shippingSubdivision)	fetchingShippingOptions(checkoutToken.id)
+		if(shippingSubdivision)	fetchingShippingOptions(checkoutToken.id, shippingCountry, shippingSubdivision)
 	}, [shippingSubdivision])
 
     return (
@@ -93,14 +98,14 @@ const AddressForm = ({checkoutToken}) => {
 							</Select>
 						</Grid>
 
-						{/* <Grid item xs={12 } sm={6}>
-							<InputLabel>Shipping Subdivisions</InputLabel>
-							<Select value={shippingSubdivision} fullWidth onChange={(e)=>setshippingSubdivision(e.target.value)}>
-								{subdivisions.map((division)=>(
-									<MenuItem key={division.id} value={division.id}>{division.label}</MenuItem>
+						<Grid item xs={12 } sm={6}>
+							<InputLabel>Shipping Options</InputLabel>
+							<Select value={shippingOption} fullWidth onChange={(e)=>setshippingOption(e.target.value)}>
+								{Options.map((So)=>(
+									<MenuItem key={So.id} value={So.id}>{So.label}</MenuItem>
 								))}
 							</Select>
-						</Grid> */}
+						</Grid>
 						
                     </Grid>
                 </form>
