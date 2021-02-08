@@ -1,10 +1,10 @@
 import React from 'react'
-
-const PaymentForm = () => {
+import Review from './Review'
+const PaymentForm = ({cartToken}) => {
     return (
-        <div>
-PaymentForm
-        </div>
+        <>
+            <Review cartToken={cartToken}/>
+        </>
     )
 }
 
