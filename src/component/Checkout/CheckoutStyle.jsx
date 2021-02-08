@@ -30,7 +30,7 @@ export default makeStyles((theme) => ({
       padding: theme.spacing(3),
     },
   },
-  stepper: {
+  Stepper: {
     padding: theme.spacing(3, 0, 5),
   },
   buttons: {

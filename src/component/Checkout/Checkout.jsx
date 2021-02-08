@@ -18,7 +18,7 @@ const Checkout = ({cartItems}) => {
     const classes = useStyle()
     // eslint-disable-next-line
     const [activeStep, setactiveStep] = useState(0)
-
+    const [shippingData, setshippingData] = useState({})
     
     const [token, settoken] = useState(null)
     
@@ -40,17 +40,27 @@ const Checkout = ({cartItems}) => {
         generateToken();
         
     }, [cartItems])
-    
+
+    const BackStep=()=>{
+        setactiveStep((previousStep)=> previousStep - 1)
+       
+    }
+
+    const NextStep=(data)=>{
+        setactiveStep((previousStep)=> previousStep + 1 )
+        setshippingData(data)
+    }
+    console.log(shippingData);
     function Form() {
         return (
-            activeStep === 0 ? <AddressForm checkoutToken={token} /> : <PaymentForm />
+            activeStep === 0 ? <AddressForm checkoutToken={token} Next={NextStep} Back={BackStep}/> : <PaymentForm shippingData={shippingData}/>
         );
     }
     return (
         <>
             <div className={classes.toolbar}/>
             <main className={classes.layout}>
-                <Paper className={classes.Paper}>
+                <Paper className={classes.paper}>
                     <Typography variant='h4' align='center' >
                         Checkout
                     </Typography>

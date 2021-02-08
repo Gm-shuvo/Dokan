@@ -1,11 +1,13 @@
 import React,{useState,useEffect} from 'react'
 // eslint-disable-next-line
-import { Typography,Grid, InputLabel, Select,MenuItem } from "@material-ui/core";
+import { Typography,Grid, InputLabel, Select,MenuItem ,Button} from "@material-ui/core";
 import { useForm,FormProvider } from "react-hook-form";
 import FormInput from './CustomForm'
 import { commerce } from "../../../lib/commerce";
+import { Link } from 'react-router-dom';
+import { NextWeek } from '@material-ui/icons';
 
-const AddressForm = ({checkoutToken}) => {
+const AddressForm = ({checkoutToken, Next, Back}) => {
 	const [shippingCountries, setshippingCountries] = useState([])
 	const [shippingCountry, setshippingCountry] = useState('')
 	const [shippingSubdivisions, setshippingSubdivisions] = useState([])
@@ -72,9 +74,9 @@ const AddressForm = ({checkoutToken}) => {
                 Shipping Address  		 
             </Typography>  
             <FormProvider {...methods}>
-                <form onSubmit={''}>
+                <form onSubmit={methods.handleSubmit((data)=>{Next({...data, shippingCountry, shippingSubdivision, shippingOption})})} >
                     <Grid container spacing ={4}>
-						<FormInput required name='first name' label='First name'/>
+						<FormInput required name='first name' label='First name'/> 
 						<FormInput required name='Last name' label='Last name'/>
 						<FormInput required name='address' label='Address'/>
 						<FormInput required name='email' label='Email'/>
@@ -108,6 +110,15 @@ const AddressForm = ({checkoutToken}) => {
 						</Grid>
 						
                     </Grid>
+
+					<div  style={{display:'flex',justifyContent:'space-between',paddingBottom:"20px",margin:'30px'}}>
+						<Button variant='outlined' component ={Link} to='/cart' >
+								Back to cart
+						</Button>
+						<Button variant='contained' type='submit' color ='primary'>
+								Next
+						</Button>
+					</div>
                 </form>
             </FormProvider>
         </>
