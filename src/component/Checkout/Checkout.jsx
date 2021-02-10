@@ -53,7 +53,7 @@ const Checkout = ({cartItems}) => {
     console.log(shippingData);
     function Form() {
         return (
-            activeStep === 0 ? <AddressForm checkoutToken={token} Next={NextStep} Back={BackStep}/> : <PaymentForm cartToken ={token}/>
+            activeStep === 0 ? <AddressForm checkoutToken={token} Next={NextStep} Back={BackStep}/> : <PaymentForm cartToken ={token} Back={BackStep}/>
         );
     }
     return (
