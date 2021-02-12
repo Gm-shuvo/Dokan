@@ -6,9 +6,13 @@ import { BrowserRouter as Router,Route,Switch} from 'react-router-dom';
 
 
 const App =() =>{
-  const [products, setproducts] = useState([])
-  
+  const [products, setproducts] = useState([]) 
   const [cartItems, setcartItems] = useState([])
+  const [Order, setOrder ]= useState({})
+  const [Error, setError] = useState({})
+
+
+
 
 	//fetching products list
   const fetchData = async()=>{
@@ -39,9 +43,26 @@ const App =() =>{
     setcartItems(cart)
   }
 
+  const refreshCart = async()=>{
+    const newCart = await commerce.cart.refresh()
+    setcartItems(newCart)
+  }
+
   const handleEmptyCart = async ()=>{
     const {cart} = await commerce.cart.empty()
     setcartItems(cart)
+    
+  }
+
+  const handleCeckoutCapture =async(cardTokenId,newOrder)=>{
+    try {
+      const inComingOrder = await commerce.checkout.capture(cardTokenId,newOrder)
+      setOrder(inComingOrder)
+      refreshCart()
+    } catch (error) {
+      setError(error.data.error.message)
+    }
+    
   }
   //console.log(cartItems);
 
@@ -65,7 +86,7 @@ const App =() =>{
                   <Cart cartItems={ cartItems } handleUpdateCart={ handleUpdateCart } handleRemoveCart={handleRemoveCart} handleEmptyCart={handleEmptyCart} /> 
             </Route>
             <Route exact path='/checkout'>
-                  <Checkout cartItems={cartItems} /> 
+                  <Checkout cartItems={cartItems} Order={Order} OnCatureOrder={handleCeckoutCapture} Error ={Error} /> 
             </Route>
         </Switch>
       </div>

@@ -1,85 +1,84 @@
-import { Paper, StepLabel, Stepper, Typography,Step } from '@material-ui/core';
+import { Paper, StepLabel, Stepper, Typography, Step } from "@material-ui/core";
 // eslint-disable-next-line
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from "react";
 import useStyle from "./CheckoutStyle";
-import AddressForm from './CheckForm/AddressForm'
-import PaymentForm from './CheckForm/PaymentForm'
-import ConfirmPage from './Confirmpage/ConfirmPage'
+import AddressForm from "./CheckForm/AddressForm";
+import PaymentForm from "./CheckForm/PaymentForm";
+import ConfirmPage from "./Confirmpage/ConfirmPage";
 import { commerce } from "../../lib/commerce";
 
+const steps = ["Shipping Address", "Payment details"];
 
+const Checkout = ({ cartItems, Order, OnCatureOrder, Error }) => {
+  const classes = useStyle();
+  // eslint-disable-next-line
+  const [activeStep, setactiveStep] = useState(0);
+  const [shippingData, setshippingData] = useState({});
 
-const steps = ['Shipping Address' , 'Payment details'] 
+  const [token, settoken] = useState(null);
 
-
-
-
-const Checkout = ({cartItems}) => {
-    const classes = useStyle()
-    // eslint-disable-next-line
-    const [activeStep, setactiveStep] = useState(0)
-    const [shippingData, setshippingData] = useState({})
-    
-    const [token, settoken] = useState(null)
-    
-    
-
-    
-
-    useEffect(() => {
-        const generateToken = async()=>{
-            try {
-                const cartToken = await commerce.checkout.generateTokenFrom('cart',cartItems.id)
-                console.log(cartToken);
-                settoken(cartToken)
-                    
-            } catch (error) {
-                console.log({message: 'Generating token error'});
-            }          
-        }
-        generateToken();
-        
-    }, [cartItems])
-
-    const BackStep=()=>{
-        setactiveStep((previousStep)=> previousStep - 1)
-       
-    }
-
-    const NextStep=(data)=>{
-        setactiveStep((previousStep)=> previousStep + 1 )
-        setshippingData(data)
-    }
-    console.log(shippingData);
-    function Form() {
-        return (
-            activeStep === 0 ? <AddressForm checkoutToken={token} Next={NextStep} Back={BackStep}/> : <PaymentForm cartToken ={token} Back={BackStep}/>
+  useEffect(() => {
+    const generateToken = async () => {
+      try {
+        const cartToken = await commerce.checkout.generateTokenFrom(
+          "cart",
+          cartItems.id
         );
-    }
-    return (
-        <>
-            <div className={classes.toolbar}/>
-            <main className={classes.layout}>
-                <Paper className={classes.paper}>
-                    <Typography variant='h4' align='center' >
-                        Checkout
-                    </Typography>
-                    <Stepper activeStep={activeStep} className={classes.Stepper}>
-                        {
-                            steps.map((step)=>(
-                                <Step key={step}>
-                                    <StepLabel>{step }</StepLabel>
-                                </Step>
-                            ))
-                        }
-                    </Stepper>
-                    {
-                        activeStep === steps.length ? <ConfirmPage/> : (token && <Form/>)
-                    }
-                </Paper>
-            </main>
-        </>
-    )
-}
+        console.log(cartToken);
+        settoken(cartToken);
+      } catch (error) {
+        console.log({ message: "Generating token error" });
+      }
+    };
+    generateToken();
+  }, [cartItems]);
 
-export default Checkout
+  const BackStep = () => {
+    setactiveStep((previousStep) => previousStep - 1);
+  };
+
+  const NextStep = () => {
+    setactiveStep((previousStep) => previousStep + 1);
+  };
+
+  const Next = (data) => {
+    setshippingData(data);
+    NextStep();
+  };
+  console.log(shippingData);
+  function Form() {
+    return activeStep === 0 ? (
+      <AddressForm checkoutToken={token} Next={Next} Back={BackStep} />
+    ) : (
+      <PaymentForm
+        cartToken={token}
+        BackStep={BackStep}
+        shippingData={shippingData}
+        NextStep={NextStep}
+        OnCatureOrder={OnCatureOrder}
+      />
+    );
+  }
+  return (
+    <>
+      <div className={classes.toolbar} />
+      <main className={classes.layout}>
+        <Paper className={classes.paper}>
+          <Typography variant="h4" align="center">
+            Checkout
+          </Typography>
+          <Stepper activeStep={activeStep} className={classes.Stepper}>
+            {steps.map((step) => (
+              <Step key={step}>
+                <StepLabel>{step}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          {activeStep === steps.length ? <ConfirmPage /> : token && <Form />}
+        </Paper>
+      </main>
+    </>
+  );
+};
+
+export default Checkout;

@@ -5,7 +5,6 @@ import { useForm,FormProvider } from "react-hook-form";
 import FormInput from './CustomForm'
 import { commerce } from "../../../lib/commerce";
 import { Link } from 'react-router-dom';
-import { NextWeek } from '@material-ui/icons';
 
 const AddressForm = ({checkoutToken, Next, Back}) => {
 	const [shippingCountries, setshippingCountries] = useState([])
@@ -16,6 +15,8 @@ const AddressForm = ({checkoutToken, Next, Back}) => {
 	const [shippingOption, setshippingOption] = useState('')
 
 	const methods = useForm()
+
+
 	const countries = Object.entries(shippingCountries).map(([code,name])=>({id:code ,label:name})) 
 	const subdivisions = Object.entries(shippingSubdivisions).map(([code,name])=>({id:code ,label:name})) 
 	console.log(checkoutToken.id);
@@ -76,8 +77,8 @@ const AddressForm = ({checkoutToken, Next, Back}) => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit((data)=>{Next({...data, shippingCountry, shippingSubdivision, shippingOption})})} >
                     <Grid container spacing ={4}>
-						<FormInput required name='first name' label='First name'/> 
-						<FormInput required name='Last name' label='Last name'/>
+						<FormInput required name='firstname' label='First name'/> 
+						<FormInput required name='lastname' label='Last name'/>
 						<FormInput required name='address' label='Address'/>
 						<FormInput required name='email' label='Email'/>
 						<FormInput required name='city' label='City'/>
