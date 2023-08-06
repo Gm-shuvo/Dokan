@@ -6,57 +6,62 @@ import AddressForm from "./CheckForm/AddressForm";
 import PaymentForm from "./CheckForm/PaymentForm";
 import ConfirmPage from "./Confirmpage/ConfirmPage";
 import { commerce } from "../../lib/commerce";
+import { useHistory } from "react-router-dom";
+
 
 const steps = ["Shipping Address", "Payment details"];
 
-const Checkout = ({ cartItems, Order, OnCatureOrder, Error }) => {
+const Checkout = ({ cartItems, Order, OnCatureOrder, Error , refreshCart}) => {
   const classes = useStyle();
   // eslint-disable-next-line
+  console.log(cartItems); 
+  const history = useHistory();
+
   const [activeStep, setactiveStep] = useState(0);
   const [shippingData, setshippingData] = useState({});
 
-  const [token, settoken] = useState(null);
+  // const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    const generateToken = async () => {
-      try {
-        const cartToken = await commerce.checkout.generateTokenFrom(
-          "cart",
-          cartItems.id
-        );
-        console.log(cartToken);
-        settoken(cartToken);
-      } catch (error) {
-        console.log({ message: "Generating token error" });
-      }
-    };
-    generateToken();
-  }, [cartItems]);
+  // useEffect(() => {
+  //   if (cartItems.id) {
+  //     const generateToken = async () => {
+  //       try {
+  //         const token = await commerce.checkout.generateTokenFrom('cart', cartItems.id);
+
+  //         setToken(token);
+  //       } catch(err) {
+  //         console.log(err)
+  //       }
+  //     };
+
+  //     generateToken();
+  //   }
+  // }, [cartItems]);
 
   const BackStep = () => {
     setactiveStep((previousStep) => previousStep - 1);
   };
 
-  const NextStep = () => {
+  const NextStep = (data) => {
     setactiveStep((previousStep) => previousStep + 1);
+    setshippingData(data);
   };
 
-  const Next = (data) => {
-    setshippingData(data);
-    NextStep();
-  };
   console.log(shippingData);
+
   function Form() {
     return activeStep === 0 ? (
-      <AddressForm checkoutToken={token} Next={Next} Back={BackStep} />
+      <AddressForm checkoutToken={""} Next={NextStep} Back={BackStep} />
     ) : (
       <PaymentForm
-        cartToken={token}
+        cartToken={cartItems}
         BackStep={BackStep}
         shippingData={shippingData}
         NextStep={NextStep}
         OnCatureOrder={OnCatureOrder}
+        refreshCart={refreshCart}
       />
+      
     );
   }
   return (
@@ -74,7 +79,7 @@ const Checkout = ({ cartItems, Order, OnCatureOrder, Error }) => {
               </Step>
             ))}
           </Stepper>
-          {activeStep === steps.length ? <ConfirmPage /> : token && <Form />}
+          {activeStep === steps.length ? <ConfirmPage /> :  <Form />}
         </Paper>
       </main>
     </>

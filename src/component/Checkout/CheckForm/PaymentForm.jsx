@@ -10,7 +10,8 @@ import Review from "./Review";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
-const PaymentForm = ({ cartToken, BackStep, shippingData, OnCatureOrder, NextStep}) => {
+const PaymentForm = ({ cartToken, BackStep, shippingData, OnCatureOrder, NextStep, refreshCart}) => {
+  console.log(cartToken)
   const handleSubmit = async (e, elements, stripe) => {
     e.preventDefault();
     if (!stripe || !elements) return;
@@ -25,7 +26,7 @@ const PaymentForm = ({ cartToken, BackStep, shippingData, OnCatureOrder, NextSte
       console.log({ message: "Error ocured on Strip" });
     } else {
       const orderData = {
-        line_item: cartToken.live.line_items,
+        line_item: cartToken.line_items,
         customer: {
           firstname: shippingData.firstname,
           lastname: shippingData.lastname,
@@ -48,7 +49,9 @@ const PaymentForm = ({ cartToken, BackStep, shippingData, OnCatureOrder, NextSte
             }
         }
       }
-      OnCatureOrder(cartToken.id, orderData)
+      console.log(orderData)
+      refreshCart()
+      // OnCatureOrder(cartToken.id, orderData)
       NextStep()
     }
 }
@@ -76,10 +79,10 @@ const PaymentForm = ({ cartToken, BackStep, shippingData, OnCatureOrder, NextSte
                 <Button
                   variant="contained"
                   type="submit"
-                  disabled={stripe}
+                  disabled={""}
                   color="primary"
                 >
-                  Pay {cartToken.live.subtotal.formatted_with_symbol}
+                  Pay {cartToken?.subtotal?.formatted_with_symbol}
                 </Button>
               </div>
             </form>

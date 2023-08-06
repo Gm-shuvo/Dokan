@@ -12,7 +12,7 @@ const Navigation =({cartItems}) =>{
       <AppBar position="fixed" classes={classes.appBar} color ='inherit'>
         <Toolbar >
           <Typography component={Link}  to='/' variant = 'h6' classes={classes.title} style={{textDecoration:'none'}}>
-            ShopApp
+            E-bag
           </Typography>
           <div className={classes.grow}/>
           <div className = {classes.button}>

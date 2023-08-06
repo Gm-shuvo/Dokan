@@ -8,7 +8,7 @@ const Products = ({productList, onAddToCart}) => {
     const classes = useStyles()
 return(
     <main className={classes.root}>
-        <Grid container justify='center' spacing={3} className={classes.content}>
+        <Grid container className={classes.content}>
                 {
                     productList.map((product) =>(
                         <Grid item key ={product.id} xs ={12} sm={6} md={4} >

@@ -34,8 +34,18 @@ const App =() =>{
   }
 
   const handleUpdateCart = async (productId, quantity)=>{
-    const {cart} = await commerce.cart.update(productId, {quantity})
-    setcartItems(cart)
+    const contents = await commerce.cart.contents();
+    const alreadyIn = contents.some(
+      (element) => element.product_id === productId
+    );
+    if (!alreadyIn) {
+      const { cart } = await commerce.cart.add(productId, quantity);
+      setcartItems(cart);
+      
+    } else {
+      console.log("already in cart");
+      return;
+    }
   }
 
   const handleRemoveCart = async (productId)=>{
@@ -86,7 +96,7 @@ const App =() =>{
                   <Cart cartItems={ cartItems } handleUpdateCart={ handleUpdateCart } handleRemoveCart={handleRemoveCart} handleEmptyCart={handleEmptyCart} /> 
             </Route>
             <Route exact path='/checkout'>
-                  <Checkout cartItems={cartItems} Order={Order} OnCatureOrder={handleCeckoutCapture} Error ={Error} /> 
+                  <Checkout cartItems={cartItems} Order={Order} OnCatureOrder={handleCeckoutCapture} Error ={Error} refreshCart={refreshCart}/> 
             </Route>
         </Switch>
       </div>
