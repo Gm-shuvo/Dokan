@@ -15,7 +15,7 @@ import Container from "@material-ui/core/Container";
 import { useAuth } from "../../context/auth/AuthProvider";
 import { toast } from "react-hot-toast";
 import { Redirect } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -54,8 +54,11 @@ export default function SignIn() {
   const classes = useStyles();
   const fromRef = useRef(null);
   const history = useHistory();
+  const location = useLocation();
 
   const { emailLogin, loading, setLoading } = useAuth();
+
+  const { from } = location.state || { from: { pathname: "/" } };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,7 +75,8 @@ export default function SignIn() {
       await emailLogin(email, password);
       toast.success("Login success");
       setLoading(false);
-      history.push("/");
+      
+      history.replace(from);
     } catch (error) {
       toast.error("Incorrect email or password");
       setLoading(false);

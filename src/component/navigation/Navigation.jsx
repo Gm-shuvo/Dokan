@@ -11,12 +11,15 @@ import {
   Typography,
 } from "@material-ui/core";
 import useStyles from "./NavigationStyle";
+import { useHistory } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "@material-ui/icons";
 import { useAuth } from "../../context/auth/AuthProvider";
 
 const Navigation = ({ cartItems }) => {
   const classes = useStyles();
+  const history = useHistory();
 
   const {currentUser, logout}  = useAuth();
 
@@ -35,6 +38,7 @@ const Navigation = ({ cartItems }) => {
   const handleLogout = () => {
     handleMenuClose();
     logout();
+    history.push("/");  
   }
 
 
