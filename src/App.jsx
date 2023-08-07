@@ -9,6 +9,7 @@ import PrivateRoute from "./component/PrivateRoute";
 import { Container } from "@material-ui/core";
 import SignIn from "./component/Auth/SignIn";
 import SignUp from "./component/Auth/SignUp";
+import ConfirmPage from "./component/Checkout/Confirmpage/ConfirmPage";
 
 const App = () => {
   const [products, setproducts] = useState([]);
@@ -119,7 +120,6 @@ const App = () => {
               
               component={(props) => (
                 <Checkout
-                  {...props}
                   cartItems={cartItems}
                   Order={Order}
                   OnCatureOrder={handleCeckoutCapture}
@@ -127,6 +127,12 @@ const App = () => {
                   refreshCart={refreshCart}
                 />
               )}
+            />
+            <PrivateRoute
+              exact
+              path="/confirm"
+              component={ (props) => (
+                <ConfirmPage  />)}
             />
           </Switch>
         </div>

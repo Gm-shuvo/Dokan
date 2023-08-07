@@ -8,14 +8,14 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
   const { currentUser } = useAuth();
   console.log("🚀 ~ file: PrivateRoute ~ currentUser:", currentUser)
   
-  const location = useLocation();
+  // const location = useLocation();
   return (
     <Route
       {...rest}
-      render={(props) =>
+      render={({location}) =>
         currentUser ? (
           // console.log("🚀 ~ file: PrivateRoute.jsx:17 ~ PrivateRoute ~ currentUser:", currentUser)
-          <Component {...props} />
+          <Component  />
         ) : (
           <Redirect to={{ pathname: '/signin', state: { from: location } }} />
         )

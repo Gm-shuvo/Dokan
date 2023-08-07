@@ -47,7 +47,23 @@ const Checkout = ({ cartItems, Order, OnCatureOrder, Error , refreshCart}) => {
     setshippingData(data);
   };
 
+  const Next = () =>{
+    setactiveStep((previousStep) => previousStep + 1);
+  }
+
   console.log(shippingData);
+
+  // const Next= () => {
+  //   setactiveStep((previousStep) => previousStep + 1);
+  // }
+
+  useEffect(() => {
+    if(activeStep === steps.length) {
+      history.push('/confirm');
+    }
+  
+  }, [activeStep, history])
+
 
   function Form() {
     return activeStep === 0 ? (
@@ -57,7 +73,7 @@ const Checkout = ({ cartItems, Order, OnCatureOrder, Error , refreshCart}) => {
         cartToken={cartItems}
         BackStep={BackStep}
         shippingData={shippingData}
-        NextStep={NextStep}
+        NextStep={Next}
         OnCatureOrder={OnCatureOrder}
         refreshCart={refreshCart}
       />
@@ -79,7 +95,7 @@ const Checkout = ({ cartItems, Order, OnCatureOrder, Error , refreshCart}) => {
               </Step>
             ))}
           </Stepper>
-          {activeStep === steps.length ? <ConfirmPage /> :  <Form />}
+          <Form/>
         </Paper>
       </main>
     </>
