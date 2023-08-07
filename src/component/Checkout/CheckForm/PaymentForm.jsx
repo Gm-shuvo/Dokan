@@ -23,7 +23,7 @@ const PaymentForm = ({ cartToken, BackStep, shippingData, OnCatureOrder, NextSte
     });
 
     if (error) {
-      console.log({ message: "Error ocured on Strip" });
+      console.log({ message: error });
     } else {
       const orderData = {
         line_item: cartToken.line_items,
@@ -79,7 +79,7 @@ const PaymentForm = ({ cartToken, BackStep, shippingData, OnCatureOrder, NextSte
                 <Button
                   variant="contained"
                   type="submit"
-                  disabled={""}
+                  
                   color="primary"
                 >
                   Pay {cartToken?.subtotal?.formatted_with_symbol}
