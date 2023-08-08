@@ -56,17 +56,21 @@ const Navigation = ({ cartItems }) => {
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
       <div className={classes.wrapper}>
-        <div className={classes.typo}>
-          <Typography
-            component={Link}
-            to="/"
-            variant="h6"
-            className={classes.title}
-            style={{ textDecoration: "none",  }}
-          >
-            Dokan
-          </Typography>
+        <div
+          className={classes.logo}
+          onClick={() =>
+            history.push({
+              pathname: "/",
+            })
+          }
+        >
+          <img
+            src="https://i.ibb.co/qCphQ0H/Dokan-8-8-2023.png"
+            alt="logo"
+            height="35px"
+          />
         </div>
+
         {/*  */}
         <div className={classes.button}>
           <IconButton

@@ -35,14 +35,46 @@ export default makeStyles((theme) => ({
   },
   cardDetails: {
     display: 'flex',
-    marginTop: '10%',
+    marginTop: '20px',
     width: '100%',
     justifyContent: 'space-between',
+    alignItems:"center", 
   },
   devider:{
     content:'',
     borderBottom:'1px solid lightgray',
     marginTop:'20px',
     
+  },
+  emptyCart:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    flexDirection:'column',
+    gap:'10px',
+    margin:'40px 0',
+  },
+  emptyCartImg:{
+    width:'50%',
+    height:'auto',
+  },
+  emptyCartText:{
+    fontSize:'1.5rem',
+    fontWeight:'900',
+    textTransform:'uppercase',
+    letterSpacing:'2px',
+    color:'gray',
+  },
+  emptyCartButton:{
+    border:'1px solid gray',
+    padding:'10px',
+    borderRadius:'5px',
+    cursor:'pointer',
+    transition:'all 0.3s ease-in-out',
+    '&:hover':{
+      backgroundColor:'gray',
+      color:'white',
+    }
   }
+  
 }));

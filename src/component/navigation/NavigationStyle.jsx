@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   typo:{
     textAlign:"center",
-    fontWeight:"600px",
+    fontWeight:"900",
     textTransform:"uppercase",
     letterSpacing:"2px",
     fontSize:"1.5rem",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "1 rem 0 ",
     [theme.breakpoints.down("sm")]: {
       padding: "0 2rem",
-      width: "100%",
+      width: "90%",
     },
   },
   title: {

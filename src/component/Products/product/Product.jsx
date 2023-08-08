@@ -39,11 +39,12 @@ const Product = ({ product, onAddToCart }) => {
   };
 
   return (
-    <Card className={classes.root} style={{ height: 450 }}>
+    <Card className={classes.root} style={{width:300, height: 450 }}>
       <CardActionArea>
         <CardMedia
           component="img"
-          height="40%"
+          alt={product.name}
+          height="200"
           className={classes.media}
           image={product.media.source}
           title={product.name}

@@ -5,12 +5,13 @@ import { Products, Navbar, Cart, Checkout } from "../src/component";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 
-
 import PrivateRoute from "./component/PrivateRoute";
 import { Container } from "@material-ui/core";
 import SignIn from "./component/Auth/SignIn";
 import SignUp from "./component/Auth/SignUp";
 import ConfirmPage from "./component/Checkout/Confirmpage/ConfirmPage";
+import Home from "./pages/home/Home";
+import Footer from "./component/Footer/Footer";
 
 const App = () => {
   const [products, setproducts] = useState([]);
@@ -20,35 +21,32 @@ const App = () => {
 
   //fetching products list
   const fetchData = async () => {
-    try{
+    try {
       const { data } = await commerce.products.list();
       setproducts(data);
-    }
-    catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
 
   //fetching cartitems
   const fetchCartItems = async () => {
-    try{
+    try {
       setcartItems(await commerce.cart.retrieve());
-    }
-    catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
   //console.log(cartItems);
 
   const handleAddcart = async (productId, quantity) => {
-    try{
+    try {
       const { cart } = await commerce.cart.add(productId, quantity);
       setcartItems(cart);
-      toast.success("Item Added to Cart")
-    }
-    catch(error){
-      console.log(error)
-      toast.error("Something worng!")
+      toast.success("Item Added to Cart");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something worng!");
     }
   };
 
@@ -62,36 +60,33 @@ const App = () => {
   };
 
   const handleRemoveCart = async (productId) => {
-    try{
+    try {
       const { cart } = await commerce.cart.remove(productId);
       setcartItems(cart);
-      toast.success("Item Removed from Cart")
-    }
-    catch(error){
-      console.log(error)
-      toast.error("Something worng!")
+      toast.success("Item Removed from Cart");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something worng!");
     }
   };
 
   const refreshCart = async () => {
-    try{
+    try {
       const newCart = await commerce.cart.refresh();
       setcartItems(newCart);
-    }
-    catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleEmptyCart = async () => {
-    try{
+    try {
       const { cart } = await commerce.cart.empty();
       setcartItems(cart);
-      toast.success("Cart is Empty")
-    }
-    catch(error){
-      console.log(error)
-      toast.error("Something worng!")
+      toast.success("Cart is Empty");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something worng!");
     }
   };
 
@@ -121,7 +116,7 @@ const App = () => {
         <Navbar cartItems={cartItems} />
         <Switch>
           <Route exact path="/">
-            <Products productList={products} onAddToCart={handleAddcart} />
+            <Home productList={products} onAddToCart={handleAddcart} />
           </Route>
 
           <Route exact path="/cart">
@@ -161,6 +156,7 @@ const App = () => {
             component={(props) => <ConfirmPage />}
           />
         </Switch>
+        <Footer />
       </Router>
       <Toaster />
     </>
