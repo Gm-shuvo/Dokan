@@ -3,13 +3,20 @@ import { makeStyles } from '@material-ui/core/styles';
 export default makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   title: {
-    marginTop: '5%',
+    margin: '0 10px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   root:{
-    marginTop:'80px'
+    marginTop:'120px'
   },
   container:{
-    display:'grid'
+    display:'grid',
+    width:'100%',
+    alignItems:'center',
+    gap:'10px',
+    marginTop:'20px',
   },
   emptyButton: {
     minWidth: '150px',
@@ -34,7 +41,8 @@ export default makeStyles((theme) => ({
   },
   devider:{
     content:'',
-    borderBottom:'1px solid ',
-    margin:'20px'
+    borderBottom:'1px solid lightgray',
+    marginTop:'20px',
+    
   }
 }));

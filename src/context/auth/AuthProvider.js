@@ -27,6 +27,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const emailRegister = async(email, password) => {
     setLoading(true)
@@ -71,6 +72,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
+      setIsAuthenticated(true);
       setLoading(false)
     })
     return unsubscribe
@@ -87,7 +89,9 @@ export const AuthProvider = ({ children }) => {
     updateUser,
     loading, 
     setLoading,
-    updateProfile
+    updateProfile,
+    isAuthenticated,
+    setIsAuthenticated
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -56,9 +56,12 @@ export default function SignIn() {
   const history = useHistory();
   const location = useLocation();
 
-  const { emailLogin, loading, setLoading } = useAuth();
+  const { emailLogin, loading, setLoading, currentUser } = useAuth();
 
   const { from } = location.state || { from: { pathname: "/" } };
+
+  if(currentUser)
+    return <Redirect to={from} />
 
   const handleSubmit = async (e) => {
     e.preventDefault();

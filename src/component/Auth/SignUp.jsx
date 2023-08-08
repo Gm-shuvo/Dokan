@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useAuth } from "../../context/auth/AuthProvider";
-import {  useHistory, useLocation } from "react-router-dom";
+import {  useHistory, useLocation, Redirect } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -50,14 +50,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  
 
-  const { emailRegister, updateProfile } = useAuth();
+  const { emailRegister, updateProfile, currentUser } = useAuth();
 
   const fromRef = useRef(null);
   const history = useHistory();
-  const location = useLocation();
+  // const location = useLocation();
 
-  console.log(location.state)
+  if(currentUser)
+    return <Redirect to={"/"} />
+
+
+  // console.log(location.state)
 
   const handleSubmit = async (e) => {
     e.preventDefault();

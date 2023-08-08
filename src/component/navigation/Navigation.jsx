@@ -5,57 +5,69 @@ import {
   Badge,
   Button,
   IconButton,
-  Menu,
-  MenuItem,
   Toolbar,
   Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Popover,
 } from "@material-ui/core";
 import useStyles from "./NavigationStyle";
 import { useHistory } from "react-router-dom";
 
 import { Link } from "react-router-dom";
-import { ShoppingCart } from "@material-ui/icons";
+import {
+  ShoppingCart,
+  AccountCircle,
+  ExitToApp,
+  Favorite,
+} from "@material-ui/icons";
 import { useAuth } from "../../context/auth/AuthProvider";
 
 const Navigation = ({ cartItems }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const {currentUser, logout}  = useAuth();
+  const { currentUser, logout, setIsAuthenticated } = useAuth();
 
-  console.log(currentUser );
-
+  const [popoverOpen, setPopoverOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleMenuOpen = (event) => {
+  const handleAvatarClick = (event) => {
+    setPopoverOpen(true);
     setAnchorEl(event.currentTarget);
-  }
+  };
 
-  const handleMenuClose = () => {
+  const handlePopoverClose = () => {
+    setPopoverOpen(false);
     setAnchorEl(null);
-  }
+  };
 
   const handleLogout = () => {
-    handleMenuClose();
+    handlePopoverClose();
     logout();
-    history.push("/");  
-  }
+    setIsAuthenticated(false);
+    history.push("/");
+  };
 
-
+  const popoverId = popoverOpen ? "avatar-popover" : undefined;
 
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
-      <Toolbar>
-        <Typography
-          component={Link}
-          to="/"
-          variant="h6"
-          className={classes.title}
-          style={{ textDecoration: "none" }}
-        >
-          E-bag
-        </Typography>
-        <div className={classes.grow} />
+      <div className={classes.wrapper}>
+        <div className={classes.typo}>
+          <Typography
+            component={Link}
+            to="/"
+            variant="h6"
+            className={classes.title}
+            style={{ textDecoration: "none",  }}
+          >
+            Dokan
+          </Typography>
+        </div>
+        {/*  */}
         <div className={classes.button}>
           <IconButton
             aria-label="show cart items"
@@ -71,46 +83,68 @@ const Navigation = ({ cartItems }) => {
               <ShoppingCart />
             </Badge>
           </IconButton>
-        </div>
 
-        {currentUser ? (
-          <>
-          <IconButton
-                aria-controls="user-menu"
-                aria-haspopup="true"
-                onClick={handleMenuOpen}
+          {currentUser ? (
+            <>
+              <IconButton
+                aria-describedby={popoverId}
+                onClick={handleAvatarClick}
                 color="inherit"
               >
                 <Avatar>{currentUser?.displayName?.charAt(0)}</Avatar>
               </IconButton>
-              <Menu
-                id="user-menu"
+              <Popover
+                id={popoverId}
+                open={popoverOpen}
                 anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
+                onClose={handlePopoverClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
               >
-                <MenuItem onClick={handleMenuClose}>
-                  {currentUser?.displayName}
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-          </>
-        ):(
-          <>
-            <div className={classes.button}>
-              <Button component={Link} to="/signin" color="inherit">
-                Login
-              </Button>
-            </div>
-            <div className={classes.button}>
-              <Button component={Link} to="/signup" color="inherit">
-                Signup
-              </Button>
-            </div>
-          </>
-        )}
-      </Toolbar>
+                <List>
+                  <ListItem button onClick={handlePopoverClose}>
+                    <ListItemIcon>
+                      <AccountCircle />
+                    </ListItemIcon>
+                    <ListItemText primary={currentUser?.displayName} />
+                  </ListItem>
+                  <ListItem button onClick={handlePopoverClose}>
+                    <ListItemIcon>
+                      <Favorite />
+                    </ListItemIcon>
+                    <ListItemText primary="Wishlist" />
+                  </ListItem>
+                  <ListItem button onClick={handleLogout}>
+                    <ListItemIcon>
+                      <ExitToApp />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </ListItem>
+                </List>
+              </Popover>
+            </>
+          ) : (
+            <>
+              <div className={classes.button}>
+                <Button component={Link} to="/signin" color="inherit">
+                  Login
+                </Button>
+              </div>
+              <div className={classes.button}>
+                <Button component={Link} to="/signup" color="inherit">
+                  Signup
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </AppBar>
   );
 };

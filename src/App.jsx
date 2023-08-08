@@ -3,7 +3,8 @@ import "./App.css";
 import { commerce } from "./lib/commerce";
 import { Products, Navbar, Cart, Checkout } from "../src/component";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
+
 
 import PrivateRoute from "./component/PrivateRoute";
 import { Container } from "@material-ui/core";
@@ -16,52 +17,82 @@ const App = () => {
   const [cartItems, setcartItems] = useState([]);
   const [Order, setOrder] = useState({});
   const [Error, setError] = useState({});
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   //fetching products list
   const fetchData = async () => {
-    const { data } = await commerce.products.list();
-    setproducts(data);
+    try{
+      const { data } = await commerce.products.list();
+      setproducts(data);
+    }
+    catch(error){
+      console.log(error)
+    }
   };
 
   //fetching cartitems
   const fetchCartItems = async () => {
-    setcartItems(await commerce.cart.retrieve());
+    try{
+      setcartItems(await commerce.cart.retrieve());
+    }
+    catch(error){
+      console.log(error)
+    }
   };
   //console.log(cartItems);
 
   const handleAddcart = async (productId, quantity) => {
-    const { cart } = await commerce.cart.add(productId, quantity);
-    setcartItems(cart);
+    try{
+      const { cart } = await commerce.cart.add(productId, quantity);
+      setcartItems(cart);
+      toast.success("Item Added to Cart")
+    }
+    catch(error){
+      console.log(error)
+      toast.error("Something worng!")
+    }
   };
 
   const handleUpdateCart = async (productId, quantity) => {
-    const contents = await commerce.cart.contents();
-    const alreadyIn = contents.some(
-      (element) => element.product_id === productId
-    );
-    if (!alreadyIn) {
-      const { cart } = await commerce.cart.add(productId, quantity);
+    try {
+      const { cart } = await commerce.cart.update(productId, { quantity });
       setcartItems(cart);
-    } else {
-      console.log("already in cart");
-      return;
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleRemoveCart = async (productId) => {
-    const { cart } = await commerce.cart.remove(productId);
-    setcartItems(cart);
+    try{
+      const { cart } = await commerce.cart.remove(productId);
+      setcartItems(cart);
+      toast.success("Item Removed from Cart")
+    }
+    catch(error){
+      console.log(error)
+      toast.error("Something worng!")
+    }
   };
 
   const refreshCart = async () => {
-    const newCart = await commerce.cart.refresh();
-    setcartItems(newCart);
+    try{
+      const newCart = await commerce.cart.refresh();
+      setcartItems(newCart);
+    }
+    catch(error){
+      console.log(error)
+    }
   };
 
   const handleEmptyCart = async () => {
-    const { cart } = await commerce.cart.empty();
-    setcartItems(cart);
+    try{
+      const { cart } = await commerce.cart.empty();
+      setcartItems(cart);
+      toast.success("Cart is Empty")
+    }
+    catch(error){
+      console.log(error)
+      toast.error("Something worng!")
+    }
   };
 
   const handleCeckoutCapture = async (cardTokenId, newOrder) => {
@@ -85,60 +116,54 @@ const App = () => {
   }, []);
 
   return (
-    <Container maxWidth="lg">
-      {" "}
-      {/* Wrapping with the container */}
+    <>
       <Router>
-        <div className="">
-          <Navbar cartItems={cartItems} />
-          <Switch>
-            <Route exact path="/">
-              <Products productList={products} onAddToCart={handleAddcart} />
-            </Route>
+        <Navbar cartItems={cartItems} />
+        <Switch>
+          <Route exact path="/">
+            <Products productList={products} onAddToCart={handleAddcart} />
+          </Route>
 
-            <Route exact path="/cart">
-              <Cart
+          <Route exact path="/cart">
+            <Cart
+              cartItems={cartItems}
+              handleUpdateCart={handleUpdateCart}
+              handleRemoveCart={handleRemoveCart}
+              handleEmptyCart={handleEmptyCart}
+            />
+          </Route>
+
+          <Route exact path="/signin">
+            <SignIn />
+          </Route>
+
+          <Route exact path="/signup">
+            <SignUp />
+          </Route>
+
+          {/* Protected Route */}
+          <PrivateRoute
+            exact
+            path="/checkout"
+            component={(props) => (
+              <Checkout
                 cartItems={cartItems}
-                handleUpdateCart={handleUpdateCart}
-                handleRemoveCart={handleRemoveCart}
-                handleEmptyCart={handleEmptyCart}
+                Order={Order}
+                OnCatureOrder={handleCeckoutCapture}
+                Error={Error}
+                refreshCart={refreshCart}
               />
-            </Route>
-
-            <Route exact path="/signin">
-              <SignIn />
-            </Route>
-
-            <Route exact path="/signup">
-              <SignUp />
-            </Route>
-
-            {/* Protected Route */}
-            <PrivateRoute
-              exact
-              path="/checkout"
-              
-              component={(props) => (
-                <Checkout
-                  cartItems={cartItems}
-                  Order={Order}
-                  OnCatureOrder={handleCeckoutCapture}
-                  Error={Error}
-                  refreshCart={refreshCart}
-                />
-              )}
-            />
-            <PrivateRoute
-              exact
-              path="/confirm"
-              component={ (props) => (
-                <ConfirmPage  />)}
-            />
-          </Switch>
-        </div>
+            )}
+          />
+          <PrivateRoute
+            exact
+            path="/confirm"
+            component={(props) => <ConfirmPage />}
+          />
+        </Switch>
       </Router>
       <Toaster />
-    </Container>
+    </>
   );
 };
 

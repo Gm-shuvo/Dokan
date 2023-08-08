@@ -1,67 +1,48 @@
-import { makeStyles, alpha } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-const drawerWidth = 0;
-
-export default makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   appBar: {
-    boxShadow: 'none',
-    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+    paddingTop: "4px",
+    // display: "flex",
+    placeItems: "center", // Center the content
+    alignItems: "center",
+    minHeight:"64px",
+    borderBottom: "1px solid #ebebeb",
+     // Space between title and other items
+    width: "100%", // 80% width of the container
+    margin: "0 auto", // Center the navbar
+    [theme.breakpoints.down("sm")]: {
+      width: "100%", // Full width on small screens
+    },
+  },
+  typo:{
+    textAlign:"center",
+    fontWeight:"600px",
+    textTransform:"uppercase",
+    letterSpacing:"2px",
+    fontSize:"1.5rem",
+    linerGradient:"to right, #fbc2eb, #a6c1ee",
+  },
+  wrapper: {
+    position: "absolute",
+    display: "flex",
+    justifyContent: "space-between",
+    width: "80%",
+    alignItems: "center",
+    padding: "1 rem 0 ",
+    [theme.breakpoints.down("sm")]: {
+      padding: "0 2rem",
+      width: "100%",
     },
   },
   title: {
-    alignItems: 'center',
-    display: 'flex',
-    textDecoration: 'none',
+    textDecoration: "none",
+    color: "inherit",
   },
-  image: {
-    marginRight: '10px',
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15), // Updated 'fade' to 'alpha'
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25), // Updated 'fade' to 'alpha'
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
+  button: {
+    display: "flex",
+    alignItems: "center",
   },
 }));
+
+export default useStyles;

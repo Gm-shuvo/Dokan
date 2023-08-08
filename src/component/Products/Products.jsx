@@ -8,10 +8,10 @@ const Products = ({productList, onAddToCart}) => {
     const classes = useStyles()
 return(
     <main className={classes.root}>
-        <Grid container className={classes.content}>
+        <Grid container spacing={4} className={classes.content}>
                 {
                     productList.map((product) =>(
-                        <Grid item key ={product.id} xs ={12} sm={6} md={4} >
+                        <Grid item  key ={product.id} xs ={12} sm={6} md={4} lg={3} >
                             <Product product={product} onAddToCart={ onAddToCart}/>
                         </Grid>
                     )
