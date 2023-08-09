@@ -55,7 +55,7 @@ const Navigation = ({ cartItems }) => {
 
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
-      <div className={classes.wrapper}>
+      <Toolbar className={classes.wrapper}>
         <div
           className={classes.logo}
           onClick={() =>
@@ -148,7 +148,7 @@ const Navigation = ({ cartItems }) => {
             </>
           )}
         </div>
-      </div>
+      </Toolbar>
     </AppBar>
   );
 };

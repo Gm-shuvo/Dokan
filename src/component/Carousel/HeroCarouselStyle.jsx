@@ -33,22 +33,44 @@ export default makeStyles((theme) => ({
       right: 0,
       bottom: 0,
     },
+    '& > div': {
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    [theme.breakpoints.down('sm')]: {
+      '& > img': {
+        height: '60%',
+        width: 'auto',
+      },
+    },
   },
   info: {
     position: 'absolute',
     top: '50%',
     left: 30,
     transform: 'translateY(-50%)',
+    width: '40%',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+      top: '20%',
+      
+    },
   },
   title:{
     textTransform: 'uppercase',
+    font: "bold",
     fontWeight: 700,
     color: '#fff',
     marginBottom: 10,
   },
   description:{
-    color: '#fff',
+    color: "lihgtgray",
     marginBottom: 20,
+
   },
   navigation: {
     position: 'absolute',

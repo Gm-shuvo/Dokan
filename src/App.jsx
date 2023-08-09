@@ -9,8 +9,8 @@ import PrivateRoute from "./component/PrivateRoute";
 import { Container } from "@material-ui/core";
 import SignIn from "./component/Auth/SignIn";
 import SignUp from "./component/Auth/SignUp";
+import Home from "./pages/Home";
 import ConfirmPage from "./component/Checkout/Confirmpage/ConfirmPage";
-import Home from "./pages/home/Home";
 import Footer from "./component/Footer/Footer";
 
 const App = () => {

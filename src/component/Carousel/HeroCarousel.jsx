@@ -60,7 +60,7 @@ const HeroCarousel = () => {
                 (slideNumber === 4 && '#D6E4E5'),
             }}
           >
-            <img src={item.image} alt="" className='relative z-10' />
+            <img src={item.image} alt="" className='' />
           </div>
           <div className={classes.info}>
             <Typography variant='h4' component={'h4'} className={classes.title}>
