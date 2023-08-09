@@ -13,9 +13,9 @@ const Review = ({ cartToken }) => {
                             src={product.media.source}
                             alt={product.name}
                             style={{
-                                width: '36px',
-                                height: '18px',
-                                borderRadius: '20px',
+                                
+                                height: '36px',
+                                borderRadius: '8px',
                                 marginRight: '10px',
                             }}
                         />

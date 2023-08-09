@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
 import useStyles from "./FeatuerProductsStyle";
-import FeatuerCard from "../../component/Card/FeatuerCard.jsx/FeatuerCard";
+import FeatuerCard from "../Card/FeatuerCard.jsx/FeatuerCard";
 
 
 const FeatuerProducts = () => {

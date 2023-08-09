@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   root: {
     maxWidth: "100%",
     
@@ -19,9 +19,10 @@ export default makeStyles(() => ({
 
   },
   media: {
-    height: "200px", // Added "px" unit
-    width: "100%", // Added "px" unit
-    padding: "5px", // 16:9
+    height: "200px", 
+    width: "100%", 
+    padding: "5px", 
+    borderRadius: "10px",
     backgroundSize: "contain",
     
   },
@@ -29,12 +30,26 @@ export default makeStyles(() => ({
     display: "flex",
     flexDirection: "column", // Change to "column" to stack the elements vertically
     justifyContent: "space-between",
-    minHeight: "210px", // Added a minimum height to the card content
   },
+  contentHead:{
+    '& > h5': {
+      minHeight: "40px",
+      maxHeight: "40px",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      display: "-webkit-box",
+      "-webkit-line-clamp": "2",
+      "-webkit-box-orient": "vertical",
+    },
+  },
+  
   cardActions: {
     display: "flex",
     justifyContent: "space-between",
+    marginBottom: "3px",
+       
   },
+
   name: {
     textOverflow: "ellipsis",
     overflow: "hidden",

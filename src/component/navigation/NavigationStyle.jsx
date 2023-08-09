@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    paddingTop: "4px",
+    padding: "0px",
     // display: "flex",
     placeItems: "center", // Center the content
     alignItems: "center",
@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     width: "80%",
     alignItems: "center",
-    padding: "1 rem 0 ",
+    margin: "0 auto",
+    padding: "0px",
     [theme.breakpoints.down("sm")]: {
       padding: "0 2rem",
       width: "90%",

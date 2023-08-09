@@ -12,8 +12,10 @@ import { AddShoppingCart, Favorite, FavoriteBorder } from "@material-ui/icons";
 import useStyle from "./ProductStyle";
 import LinesEllipsis from "react-lines-ellipsis";
 import HTMLEllipsis from "react-lines-ellipsis/lib/html";
+import { Link } from "react-router-dom";
 
 const Product = ({ product, onAddToCart }) => {
+  console.log("🚀 ~ file: Product.jsx:17 ~ Product ~ product:", product);
   const classes = useStyle();
   const [isWishlisted, setIsWishlisted] = useState(false);
 
@@ -39,20 +41,19 @@ const Product = ({ product, onAddToCart }) => {
   };
 
   return (
-    <Card className={classes.root} style={{width:300, height: 450 }}>
-      <CardActionArea>
+    <Card className={classes.root}>
+      <CardActionArea component={Link} to={`/product/${product.id}`}>
         <CardMedia
           component="img"
           alt={product.name}
-          height="200"
           className={classes.media}
           image={product.media.source}
           title={product.name}
         />
-        <CardContent>
+        <CardContent className={classes.content}>
           <div className={classes.contentHead}>
-            <Typography gutterBottom variant="h6" component="h5" >
-             <LinesEllipsis
+            <Typography gutterBottom variant="subtitle2" component="h5">
+              <LinesEllipsis
                 text={product.name}
                 maxLine="2"
                 ellipsis="..."
@@ -60,13 +61,20 @@ const Product = ({ product, onAddToCart }) => {
                 basedOn="letters"
               />
             </Typography>
+            <Typography variant="body2" color={`${product.quantity > 0 ? "textPrimary" : "textSecondary"}`} component="p">
+              {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+            </Typography>
           </div>
-
           <div className={classes.contentBody}>
-            <Typography variant="body2" color="textSecondary" component="h3">
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+              className={classes.description}
+            >
               <HTMLEllipsis
                 unsafeHTML={product.description}
-                maxLine="3"
+                maxLine="2"
                 ellipsis="..."
                 basedOn="letters"
               />
@@ -75,11 +83,12 @@ const Product = ({ product, onAddToCart }) => {
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.cardActions}>
-        <Typography variant="body2">
-          {product.price.formatted_with_symbol}
-        </Typography>
-
-        <div style={{ flexGrow: 1 }}></div> {/* Spacer */}
+        <Typography
+          className={classes.title}
+          variant="body2"
+          style={{paddingLeft: '10px'}}
+        >{`${product.price.raw} TK`}</Typography>
+        <div className={classes.cardIcon}>
         <IconButton
           aria-label="Add to wishlist"
           onClick={handleWishlistClick}
@@ -93,6 +102,7 @@ const Product = ({ product, onAddToCart }) => {
         >
           <AddShoppingCart />
         </IconButton>
+        </div> 
       </CardActions>
     </Card>
   );

@@ -1,8 +1,9 @@
 import React from "react";
-import Products from "../component/Products/Products";
+import Products from "../component/Hotdeals/Hotdeals";
 import HeroCarousel from "../component/Carousel/HeroCarousel";
 import useStyle from "./HomeStyle";
-import FeatuerProducts from "./FeatuerProducts/FeatuerProducts";
+import FeatuerProducts from "../component/FeatuerProducts/FeatuerProducts";
+import Hotdeals from "../component/Hotdeals/Hotdeals";
 
 const Home = ({productList, onAddToCart}) => {
   const classes = useStyle();
@@ -21,7 +22,7 @@ const Home = ({productList, onAddToCart}) => {
     <div className={classes.root}>
       <HeroCarousel/>
       <FeatuerProducts/>
-      <Products productList={productList} onAddToCart={onAddToCart} />
+      <Hotdeals productList={productList} onAddToCart={onAddToCart} />
     </div>
   );
 }
