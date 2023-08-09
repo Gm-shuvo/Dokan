@@ -56,20 +56,17 @@ const Navigation = ({ cartItems }) => {
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
       <Toolbar className={classes.wrapper}>
-        <div
+        <Link
           className={classes.logo}
-          onClick={() =>
-            history.push({
-              pathname: "/",
-            })
-          }
+          to={"/"}
+          style={{ textDecoration: "none" }}
         >
           <img
             src="https://i.ibb.co/qCphQ0H/Dokan-8-8-2023.png"
             alt="logo"
             height="35px"
           />
-        </div>
+        </Link>
 
         {/*  */}
         <div className={classes.button}>

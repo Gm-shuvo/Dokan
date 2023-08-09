@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Typography } from '@material-ui/core';
 
-import Product from './product/Product';
+import Product from '../Card/ProductCard/Product';
 import useStyles from './HotdealsStyles';
 
 const Hotdeals = ({productList, onAddToCart}) => {

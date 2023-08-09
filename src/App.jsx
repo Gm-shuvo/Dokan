@@ -4,14 +4,13 @@ import { commerce } from "./lib/commerce";
 import { Products, Navbar, Cart, Checkout } from "../src/component";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-
 import PrivateRoute from "./component/PrivateRoute";
-import { Container } from "@material-ui/core";
-import SignIn from "./component/Auth/SignIn";
-import SignUp from "./component/Auth/SignUp";
-import Home from "./pages/Home";
-import ConfirmPage from "./component/Checkout/Confirmpage/ConfirmPage";
+import SignIn from "./pages/Auth/SignIn";
+import SignUp from "./pages/Auth/SignUp";
 import Footer from "./component/Footer/Footer";
+import SigleProduct from "./pages/SingleProduct/SingleProduct";
+import Home from "./pages/Home/Home";
+import ConfirmPage from "./pages/Confirmpage/ConfirmPage";
 
 const App = () => {
   const [products, setproducts] = useState([]);
@@ -126,6 +125,9 @@ const App = () => {
               handleRemoveCart={handleRemoveCart}
               handleEmptyCart={handleEmptyCart}
             />
+          </Route>
+          <Route exact path="/products/:id">
+            <SigleProduct onAddToCart={handleAddcart} />
           </Route>
 
           <Route exact path="/signin">

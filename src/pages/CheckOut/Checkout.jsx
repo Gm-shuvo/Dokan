@@ -2,9 +2,9 @@ import { Paper, StepLabel, Stepper, Typography, Step } from "@material-ui/core";
 // eslint-disable-next-line
 import React, { useState, useEffect } from "react";
 import useStyle from "./CheckoutStyle";
-import AddressForm from "./CheckForm/AddressForm";
-import PaymentForm from "./CheckForm/PaymentForm";
-import ConfirmPage from "./Confirmpage/ConfirmPage";
+import AddressForm from "../../component/CheckForm/AddressForm";
+import PaymentForm from "../../component/CheckForm/PaymentForm";
+import ConfirmPage from "../Confirmpage/ConfirmPage";
 import { commerce } from "../../lib/commerce";
 import { useHistory } from "react-router-dom";
 

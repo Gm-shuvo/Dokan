@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { useForm, FormProvider } from "react-hook-form";
 import FormInput from "./CustomForm";
-import { commerce } from "../../../lib/commerce";
+import { commerce } from "../../lib/commerce";
 import { Link } from "react-router-dom";
 
 const AddressForm = ({ checkoutToken, Next, Back }) => {
