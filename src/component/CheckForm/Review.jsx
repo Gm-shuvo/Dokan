@@ -1,4 +1,4 @@
-import { List, Typography, ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
+import { List, Typography, ListItem, ListItemText } from '@material-ui/core';
 import React from 'react';
 
 const Review = ({ cartToken }) => {
@@ -13,8 +13,8 @@ const Review = ({ cartToken }) => {
                             src={product.media.source}
                             alt={product.name}
                             style={{
-                                
-                                height: '36px',
+                                width: "40px",
+                                height: '40px',
                                 borderRadius: '8px',
                                 marginRight: '10px',
                             }}

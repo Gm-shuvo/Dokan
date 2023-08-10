@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App.jsx';
-import { AuthProvider } from './context/auth/AuthProvider';
+import { CombineProvider } from './context/CombineContext';
 
 
 ReactDOM.render(
-  <AuthProvider>
+  <CombineProvider>
     <App />
-  </AuthProvider>,
+  </CombineProvider>,
   document.getElementById('root')
 );
 

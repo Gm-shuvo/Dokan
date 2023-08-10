@@ -5,8 +5,11 @@ import useStyle from "./HomeStyle";
 import FeatuerProducts from "../../component/FeatuerProducts/FeatuerProducts";
 import Hotdeals from "../../component/Hotdeals/Hotdeals";
 
-const Home = ({productList, onAddToCart}) => {
+import { useCommerce } from "../../context/api/CommerceProvider";
+
+const Home = () => {
   const classes = useStyle();
+  const { products: productList, handleAddcart: onAddToCart  } = useCommerce();
   console.log(productList);
   
   // productList.map((product) => {

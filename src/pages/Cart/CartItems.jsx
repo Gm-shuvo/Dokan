@@ -4,15 +4,12 @@ import CartItem from "../../component/CartItem/CartItem";
 import useStyles from "./CartItemsStyle";
 import { Link } from "react-router-dom";
 import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";
-const CartItems = ({
-  cartItems,
-  handleUpdateCart,
-  handleRemoveCart,
-  handleEmptyCart,
-}) => {
-  const classes = useStyles();
-  // const isEmpty =  cartItems.line_items.lenght
 
+import { useCommerce } from "../../context/api/CommerceProvider";
+
+const CartItems = () => {
+  const classes = useStyles();
+  const { cartItems, handleUpdateCart, handleRemoveCart, handleEmptyCart } = useCommerce();
   const IsEmptyCart = () => {
     return (
       <Container>

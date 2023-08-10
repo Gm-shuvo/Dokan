@@ -4,15 +4,16 @@ import React, { useState, useEffect } from "react";
 import useStyle from "./CheckoutStyle";
 import AddressForm from "../../component/CheckForm/AddressForm";
 import PaymentForm from "../../component/CheckForm/PaymentForm";
-import ConfirmPage from "../Confirmpage/ConfirmPage";
-import { commerce } from "../../lib/commerce";
-import { useHistory } from "react-router-dom";
 
+import { useHistory } from "react-router-dom";
+import { useCommerce } from "../../context/api/CommerceProvider";
 
 const steps = ["Shipping Address", "Payment details"];
 
-const Checkout = ({ cartItems, Order, OnCatureOrder, Error , refreshCart}) => {
+const Checkout = () => {
   const classes = useStyle();
+
+  const {cartItems, Order, OnCatureOrder, Error , refreshCart} = useCommerce();
   // eslint-disable-next-line
   console.log(cartItems); 
   const history = useHistory();

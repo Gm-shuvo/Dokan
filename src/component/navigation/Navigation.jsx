@@ -6,7 +6,6 @@ import {
   Button,
   IconButton,
   Toolbar,
-  Typography,
   List,
   ListItem,
   ListItemIcon,
@@ -24,12 +23,14 @@ import {
   Favorite,
 } from "@material-ui/icons";
 import { useAuth } from "../../context/auth/AuthProvider";
+import { useCommerce } from "../../context/api/CommerceProvider";
 
-const Navigation = ({ cartItems }) => {
+const Navigation = () => {
   const classes = useStyles();
   const history = useHistory();
 
   const { currentUser, logout, setIsAuthenticated } = useAuth();
+  const { cartItems } = useCommerce();
 
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -55,7 +56,7 @@ const Navigation = ({ cartItems }) => {
 
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
-      <Toolbar className={classes.wrapper}>
+      <div className={classes.wrapper}>
         <Link
           className={classes.logo}
           to={"/"}
@@ -145,7 +146,7 @@ const Navigation = ({ cartItems }) => {
             </>
           )}
         </div>
-      </Toolbar>
+      </div>
     </AppBar>
   );
 };

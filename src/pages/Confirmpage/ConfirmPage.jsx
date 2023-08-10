@@ -36,7 +36,7 @@ const ConfirmPage = () => {
           className={classes.icon}
           trigger="loop"
           colors="primary:#121331,secondary:#08a88a"
-          style={{ width: "100px", height: "100px" }}
+          style={{ width: "300px", height: "300px", marginBottom: "30px" }}
           src="https://cdn.lordicon.com/lupuorrc.json"
         ></lord-icon>
         <Typography variant="h5" className={classes.message}>
