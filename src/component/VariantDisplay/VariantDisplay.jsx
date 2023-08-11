@@ -16,7 +16,7 @@ const VariantDisplay = ({ type, values, active, onClickVariant, selectColor }) =
             
            type === "color"
               ? { backgroundColor: value }
-              : active === value ? { backgroundColor: "#ccc", color: selectColor } : { backgroundColor: "#ccc" }
+              : active === value ? { backgroundColor: "black", borderColor: selectColor, color: "white" } : { backgroundColor: "black",  color: "white" }
           }
           onClick={() => onClickVariant(value)} // Call the provided onClick function
         >

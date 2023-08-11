@@ -16,6 +16,7 @@
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.14.2",
     "react-hot-toast": "^2.4.1",
+    "react-html-parser": "^2.0.2",
     "react-lines-ellipsis": "^0.14.1",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^5.2.0",
@@ -41,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-loader-spinner": "^5.3.4"
   }
 }

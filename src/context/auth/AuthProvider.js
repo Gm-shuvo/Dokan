@@ -1,5 +1,5 @@
-import React from 'react'
-import { createContext, useContext, useEffect, useState } from 'react'
+import React from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -9,74 +9,63 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  updateProfile
-} from 'firebase/auth'
+  updateProfile,
+} from "firebase/auth";
 
-import { app } from '../../firebase/firebase'
+import { app } from "../../firebase/firebase";
+import { TailSpin } from "react-loader-spinner";
 
-
-const AuthContext = createContext()
-const auth = getAuth(app)
-
-
+const AuthContext = createContext();
+const auth = getAuth(app);
 
 export const useAuth = () => {
-  return useContext(AuthContext)
-}
+  return useContext(AuthContext);
+};
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [currentUser, setCurrentUser] = useState();
+  const [loadingAuth, setLoadingAuth] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const emailRegister = async(email, password) => {
-    setLoading(true)
-    return await createUserWithEmailAndPassword(auth, email, password)
-  }
+  const emailRegister = async (email, password) => {
+    return await createUserWithEmailAndPassword(auth, email, password);
+  };
 
-  const emailLogin =async (email, password) => {
-    setLoading(true)
-    return await signInWithEmailAndPassword(auth, email, password)
-  }
+  const emailLogin = async (email, password) => {
+    return await signInWithEmailAndPassword(auth, email, password);
+  };
 
-  
   const logout = () => {
-    setLoading(true)
-    return signOut(auth)
-  }
+    return signOut(auth);
+  };
 
   const resetPassword = (email) => {
-    setLoading(true)
-    return sendPasswordResetEmail(auth, email)
-  }
+    return sendPasswordResetEmail(auth, email);
+  };
 
-  console.log(currentUser)
+  console.log(currentUser);
 
-  const updateUser=(userInfo)=>{
-    setLoading(true)
-    return updateProfile(auth.currentUser, userInfo)
-  }
-  
+  const updateUser = (userInfo) => {
+    return updateProfile(auth.currentUser, userInfo);
+  };
+
   const forgetPassword = (email) => {
-    setLoading(true)
-    return sendPasswordResetEmail(auth, email)
-  }
-
+    return sendPasswordResetEmail(auth, email);
+  };
 
   const googleLogin = () => {
-    setLoading(true)
-    const provider = new GoogleAuthProvider()
-    return signInWithPopup(auth, provider)
-  }
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(auth, provider);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
+      setCurrentUser(user);
       setIsAuthenticated(true);
-      setLoading(false)
-    })
-    return unsubscribe
-  }, [])
+      setLoadingAuth(false);
+    });
+    return unsubscribe;
+  }, []);
 
   const value = {
     currentUser,
@@ -87,18 +76,31 @@ export const AuthProvider = ({ children }) => {
     forgetPassword,
     googleLogin,
     updateUser,
-    loading, 
-    setLoading,
+    loadingAuth,
+    setLoadingAuth,
     updateProfile,
     isAuthenticated,
-    setIsAuthenticated
-  }
+    setIsAuthenticated,
+  };
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {loadingAuth ? (
+        <TailSpin
+          height="60"
+          width="60"
+          color="#4fa94d"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export default AuthProvider
+export default AuthProvider;

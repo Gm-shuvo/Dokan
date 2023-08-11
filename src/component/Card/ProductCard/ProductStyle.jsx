@@ -19,11 +19,23 @@ export default makeStyles((theme) => ({
 
   },
   media: {
-    height: "200px", 
+    height: "160px", 
     width: "100%", 
     padding: "5px", 
     borderRadius: "10px",
     backgroundSize: "contain",
+    objectFit: "cover",
+    cursor: "pointer",
+    '& img':{
+      width: '100%',
+      height: '100%',
+      objectFit: 'contain',
+      borderRadius: '10px',
+    },
+    [theme.breakpoints.down("md")]: {
+      height: "140px",
+    },
+
     
   },
   cardContent: {
@@ -42,12 +54,25 @@ export default makeStyles((theme) => ({
       "-webkit-box-orient": "vertical",
     },
   },
+
+  contentBody: {
+    maxHeight: "60px",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    "-webkit-line-clamp": "3",
+    "-webkit-box-orient": "vertical",
+  },
   
   cardActions: {
     display: "flex",
     justifyContent: "space-between",
     marginBottom: "3px",
-       
+    padding: "0px"   
+  },
+
+  title: {
+    paddingLeft: "16px"
   },
 
   name: {

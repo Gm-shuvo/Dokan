@@ -26,7 +26,6 @@ export default makeStyles((theme) => ({
     border: "2px solid ", // Add border when active
     // backgroundImage: 'linear-gradient(45deg, #F06A9B, #6C63FF)',
     // '-webkit-text-fill-color': 'transparent',
-    borderColor: "", 
     boxShadow: "0 0 0 2px #fff", // Add white shadow
   },
 }));

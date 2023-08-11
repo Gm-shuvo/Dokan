@@ -24,7 +24,7 @@ const Hotdeals = ({productList, onAddToCart}) => {
                 </Typography>
             </div>
             <Grid container spacing={3}>
-                {productList?.map((product, index) => (
+                {productList?.slice(0, 8)?.map((product, index) => (
                     <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
                         <Product product={product} onAddToCart={onAddToCart} />
                     </Grid>

@@ -6,6 +6,7 @@ import FeatuerProducts from "../../component/FeatuerProducts/FeatuerProducts";
 import Hotdeals from "../../component/Hotdeals/Hotdeals";
 
 import { useCommerce } from "../../context/api/CommerceProvider";
+import DiscountCard from "../../component/Card/DiscountCard/DiscountCard";
 
 const Home = () => {
   const classes = useStyle();
@@ -26,6 +27,7 @@ const Home = () => {
       <HeroCarousel/>
       <FeatuerProducts/>
       <Hotdeals productList={productList} onAddToCart={onAddToCart} />
+      <DiscountCard />
     </div>
   );
 }

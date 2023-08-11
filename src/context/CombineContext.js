@@ -4,6 +4,7 @@ import { CommerceProvider } from "./api/CommerceProvider";
 
 const CombineContext = createContext();
 
+
 export const useCombineContext = () => {
   return useContext(CombineContext);
 };
@@ -12,9 +13,7 @@ export const CombineProvider = ({ children }) => {
   return (
     <AuthProvider>
       <CommerceProvider>
-        
-          {children}
-       
+        <CombineContext.Provider value={{}}>{children}</CombineContext.Provider>
       </CommerceProvider>
     </AuthProvider>
   );

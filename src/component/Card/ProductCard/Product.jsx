@@ -11,8 +11,9 @@ import {
 import { AddShoppingCart, Favorite, FavoriteBorder } from "@material-ui/icons";
 import useStyle from "./ProductStyle";
 import LinesEllipsis from "react-lines-ellipsis";
-import HTMLEllipsis from "react-lines-ellipsis/lib/html";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import ReactHtmlParser from "react-html-parser";
+
 
 const Product = ({ product, onAddToCart }) => {
   console.log("🚀 ~ file: Product.jsx:17 ~ Product ~ product:", product);
@@ -61,48 +62,48 @@ const Product = ({ product, onAddToCart }) => {
                 basedOn="letters"
               />
             </Typography>
-            <Typography variant="body2" color={`${product.quantity > 0 ? "textPrimary" : "textSecondary"}`} component="p">
+            <Typography
+              variant="body2"
+              color={`${
+                product.quantity > 0 ? "textPrimary" : "textSecondary"
+              }`}
+              component="p"
+            >
               {product.quantity > 0 ? "In Stock" : "Out of Stock"}
             </Typography>
           </div>
-          <div className={classes.contentBody}>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              component="p"
-              className={classes.description}
-            >
-              <HTMLEllipsis
-                unsafeHTML={product.description}
-                maxLine="2"
-                ellipsis="..."
-                basedOn="letters"
-              />
-            </Typography>
-          </div>
+
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="h6"
+            className={classes.contentBody}
+          >
+           {ReactHtmlParser(product.description)}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.cardActions}>
         <Typography
           className={classes.title}
           variant="body2"
-          style={{paddingLeft: '10px'}}
+          style={{ paddingLeft: "10px" }}
         >{`${product.price.raw} TK`}</Typography>
         <div className={classes.cardIcon}>
-        <IconButton
-          aria-label="Add to wishlist"
-          onClick={handleWishlistClick}
-          color={isWishlisted ? "secondary" : "default"}
-        >
-          {isWishlisted ? <Favorite /> : <FavoriteBorder />}
-        </IconButton>
-        <IconButton
-          aria-label="Add to cart"
-          onClick={() => onAddToCart(product.id, 1)}
-        >
-          <AddShoppingCart />
-        </IconButton>
-        </div> 
+          <IconButton
+            aria-label="Add to wishlist"
+            onClick={handleWishlistClick}
+            color={isWishlisted ? "secondary" : "default"}
+          >
+            {isWishlisted ? <Favorite /> : <FavoriteBorder />}
+          </IconButton>
+          <IconButton
+            aria-label="Add to cart"
+            onClick={() => onAddToCart(product.id, 1)}
+          >
+            <AddShoppingCart />
+          </IconButton>
+        </div>
       </CardActions>
     </Card>
   );

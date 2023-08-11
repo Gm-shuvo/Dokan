@@ -16,10 +16,10 @@ const Footer = () => {
 
   const navItems = [
     { name: "Products", path: "/products" },
-    { name: "Store Location", path: "/stores" },
+    { name: "Store Location", path: "/" },
     { name: "Contact", path: "/contact" },
-    { name: "Login", path: "/login" },
-    { name: "Register", path: "/register" },
+    { name: "Login", path: "/signin" },
+    { name: "Register", path: "/signup" },
   ];
 
   const navItems2 = [
@@ -31,7 +31,7 @@ const Footer = () => {
   return (
     <footer className={classes.footer}>
       <section className={classes.section}>
-        <div>
+        <div className={classes.brandName}>
           <img
             src="https://i.ibb.co/qCphQ0H/Dokan-8-8-2023.png"
             alt="logo"
@@ -41,7 +41,7 @@ const Footer = () => {
             A Electronics Brand
           </Typography>
         </div>
-        <div>
+        <div className={classes.menubar}>
           <Typography variant="h6" className={classes.navTitle}>
             Menubar
           </Typography>
@@ -55,7 +55,8 @@ const Footer = () => {
             ))}
           </ul>
         </div>
-        <div>
+
+        <div className={classes.useFulLink}>
           <Typography variant="h6" className={classes.navTitle}>
             Useful Links
           </Typography>
@@ -69,6 +70,7 @@ const Footer = () => {
             ))}
           </ul>
         </div>
+
         <div className={classes.reachOut}>
           <Typography variant="h6" className={classes.navTitle}>
             Reach Out to us

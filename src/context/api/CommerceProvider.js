@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { commerce } from "../../lib/commerce";
 import { toast } from "react-hot-toast";
+import { TailSpin } from "react-loader-spinner";
 
 const CommerceContext = createContext();
 
@@ -15,32 +16,18 @@ export const CommerceProvider = ({ children }) => {
   const [singleProduct, setSingleProduct] = useState({});
   const [order, setOrder] = useState({});
   const [error, setError] = useState(null);
+  const [loadingCommerce, setLoadingCommerce] = useState(false);
 
   // Fetching data...
 
-  const fetchData = async () => {
-    try {
-      const { data } = await commerce.products.list();
-      setProducts(data);
-      console.log(products);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchCartItems = async () => {
-    try {
-      setCartItems(await commerce.cart.retrieve());
-      console.log(cartItems);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
 
   const getProductById = async (productId) => {
     try {
-      const product = await commerce.products.retrieve(productId);
       
+      const product = await commerce.products.retrieve(productId);
+      setSingleProduct(product);
+      setLoadingCommerce(false);
       return product;
     } catch (error) {
       console.log(error);
@@ -126,6 +113,27 @@ export const CommerceProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoadingCommerce(true);
+        const { data } = await commerce.products.list();
+        setProducts(data);
+        setLoadingCommerce(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchCartItems = async () => {
+      try {
+        setLoadingCommerce(true);
+        setCartItems(await commerce.cart.retrieve());
+        setLoadingCommerce(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchData();
     fetchCartItems();
   }, []);
@@ -133,11 +141,10 @@ export const CommerceProvider = ({ children }) => {
   const commerceContextValue = {
     products,
     cartItems,
-    singleProduct,
+    loadingCommerce,
+    setLoadingCommerce,
     order,
     error,
-    fetchData,
-    fetchCartItems,
     getProductById,
     // Other functions...
     handleAddcart,
@@ -152,7 +159,20 @@ export const CommerceProvider = ({ children }) => {
 
   return (
     <CommerceContext.Provider value={commerceContextValue}>
-      {children}
+      {loadingCommerce ? (
+        <TailSpin
+          height="60"
+          width="60"
+          color="#4fa94d"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : (
+        children
+      )}
     </CommerceContext.Provider>
   );
 };
