@@ -11,19 +11,25 @@ import {
 import { AddShoppingCart, Favorite, FavoriteBorder } from "@material-ui/icons";
 import useStyle from "./ProductStyle";
 import LinesEllipsis from "react-lines-ellipsis";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
-
+import { useCommerce } from "../../../context/api/CommerceProvider";
 
 const Product = ({ product, onAddToCart }) => {
   console.log("🚀 ~ file: Product.jsx:17 ~ Product ~ product:", product);
   const classes = useStyle();
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const { getWishlistFromLocalStorage, addToWishlist, removeFromWishlist } =
+    useCommerce();
 
   useEffect(() => {
     // Load wishlisted state from localStorage when component mounts
-    const storedWishlisted = localStorage.getItem(product.id);
-    if (storedWishlisted) {
+    const wishes = getWishlistFromLocalStorage();
+    const isWishlisted = wishes.find((wish) => wish.id === product.id);
+    console.log("🚀 ~ isWishlisted:", isWishlisted)
+    console.log(wishes);
+
+    if (isWishlisted) {
       setIsWishlisted(true);
     }
   }, [product.id]);
@@ -33,9 +39,9 @@ const Product = ({ product, onAddToCart }) => {
     setIsWishlisted((prevIsWishlisted) => {
       const newWishlisted = !prevIsWishlisted;
       if (newWishlisted) {
-        localStorage.setItem(product.id, "true");
+        addToWishlist(product);
       } else {
-        localStorage.removeItem(product.id);
+        removeFromWishlist(product.id);
       }
       return newWishlisted;
     });
@@ -79,7 +85,7 @@ const Product = ({ product, onAddToCart }) => {
             component="h6"
             className={classes.contentBody}
           >
-           {ReactHtmlParser(product.description)}
+            {ReactHtmlParser(product.description)}
           </Typography>
         </CardContent>
       </CardActionArea>

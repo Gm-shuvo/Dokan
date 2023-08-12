@@ -35,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
       width: "90%",
     },
   },
+  auth:{
+    display:"flex",
+    alignItems:"center",
+    gap: "2px"
+
+  },
   title: {
     textDecoration: "none",
     color: "inherit",
@@ -43,6 +49,24 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
+
+  popover: {
+    
+    '& .MuiListItem-root:nth-last-child(1)': {
+      borderBottom: "none",
+    },
+    '& .MuiListItem-root:not(:nth-last-child(1))': {
+      borderBottom: "1px solid #ebebeb",
+    },
+    '& .MuiListItemIcon-root': {
+      minWidth: "20px",
+      marginRight: '10px'
+    },
+    '& .MuiListItemText-root': {
+      fontSize: "14px",
+    },
+  },
+  
 }));
 
 export default useStyles;

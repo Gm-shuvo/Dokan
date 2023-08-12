@@ -35,15 +35,20 @@ const SingleProduct = () => {
   const [selectedText, setSelectedText] = useState(textVariants[0]);
 
   useEffect(() => {
-    let mounted = true;
-
-    getProductById(id).then((product) => {
-      if (mounted) {
+    const fetchProduct = async () => {
+      try {
+        const product = await getProductById(id);
         setProduct(product);
         setLoadingCommerce(false);
       }
-    });
-    return () => (mounted = false);
+      catch (error) {
+        console.log(error);
+        setLoadingCommerce(false)
+      }
+    }
+    if (id) {
+      fetchProduct();
+    }
   }, [id]);
 
   //get the product cartItem id & current quantity from cartItem array

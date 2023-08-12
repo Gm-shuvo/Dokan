@@ -94,18 +94,18 @@ const Navigation = () => {
               >
                 <Avatar>{currentUser?.displayName?.charAt(0)}</Avatar>
               </IconButton>
-              <Popover
+              <Popover className={classes.popover}
                 id={popoverId}
                 open={popoverOpen}
                 anchorEl={anchorEl}
                 onClose={handlePopoverClose}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "start",
+                  horizontal: "right",
                 }}
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "center",
+                  horizontal: "right",
                 }}
               >
                 <List>

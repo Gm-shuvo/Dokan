@@ -19,18 +19,16 @@ export const CommerceProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [loadingCommerce, setLoadingCommerce] = useState(true);
 
-  console.log("🚀 ~ ~ loadingCommerce:", loadingCommerce)
+  console.log("🚀 ~ ~ loadingCommerce:", loadingCommerce);
 
   // Fetching data...
   const fetchData = async () => {
     try {
       const { data } = await commerce.products.list();
       setProducts(data);
-      
     } catch (error) {
       console.log(error);
-    }
-    finally{
+    } finally {
       setLoadingCommerce(false);
     }
   };
@@ -38,27 +36,16 @@ export const CommerceProvider = ({ children }) => {
   const fetchCartItems = async () => {
     try {
       setCartItems(await commerce.cart.retrieve());
-      
     } catch (error) {
       console.log(error);
-    }
-    finally{
+    } finally {
       setLoadingCommerce(false);
     }
   };
 
   const getProductById = async (productId) => {
-    try {
-      
-      return await commerce.products.retrieve(productId);
-    } catch (error) {
-      console.log(error);
-    }
-    finally{
-      setLoadingCommerce(false);
-    }
+    return await commerce.products.retrieve(productId);
   };
-
 
   // Other functions...
   const handleAddcart = async (productId, quantity) => {
@@ -137,6 +124,30 @@ export const CommerceProvider = ({ children }) => {
     }
   };
 
+  // wishlist fuctionality
+  const getWishlistFromLocalStorage = () => {
+    const wishlist = localStorage.getItem("wishlist");
+    return wishlist ? JSON.parse(wishlist) : [];
+  };
+
+  // Helper function to update the wishlist in local storage
+  const updateWishlistInLocalStorage = (wishlist) => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  };
+  const addToWishlist = (product) => {
+    const wishlist = getWishlistFromLocalStorage();
+    if (!wishlist.find((wish) => wish.id === product.id)) {
+      wishlist.push(product);
+      updateWishlistInLocalStorage(wishlist);
+    }
+  };
+
+  const removeFromWishlist = (productId) => {
+    const wishlist = getWishlistFromLocalStorage();
+    const updatedWishlist = wishlist.filter((wish) => wish.id !== productId);
+    updateWishlistInLocalStorage(updatedWishlist);
+  };
+
   useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed) {
@@ -162,16 +173,15 @@ export const CommerceProvider = ({ children }) => {
     handleEmptyCart,
     getProductByCategory,
     handleCeckoutCapture,
-
+    // wishlist fuctionality
+    getWishlistFromLocalStorage,
+    addToWishlist,
+    removeFromWishlist,
   };
 
   return (
     <CommerceContext.Provider value={commerceContextValue}>
-      {loadingCommerce ? (
-        <Loader />
-      ) : (
-        children
-      )}
+      {loadingCommerce ? <Loader /> : children}
     </CommerceContext.Provider>
   );
 };
