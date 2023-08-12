@@ -38,7 +38,7 @@ const Footer = () => {
             height="35px"
           />
           <Typography variant="h6" className={classes.brandTitle}>
-            A Electronics Brand
+            A Fashion Brand
           </Typography>
         </div>
         <div className={classes.menubar}>

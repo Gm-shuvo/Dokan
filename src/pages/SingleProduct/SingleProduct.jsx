@@ -1,14 +1,13 @@
-import { Button, Container, Typography } from "@material-ui/core";
+import { Button, Container, IconButton, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useStyles from "./SingleProductStyles";
 import VariantDisplay from "../../component/VariantDisplay/VariantDisplay";
-import { AddShoppingCart } from "@material-ui/icons";
+import { AddShoppingCart, Favorite, FavoriteBorder } from "@material-ui/icons";
 import { reviews } from "../../dummyData";
 import { useCommerce } from "../../context/api/CommerceProvider";
 import MultiContent from "../../component/MultiContent/MultiContent";
 import SimilarPorducts from "../../component/SimilarProducts/SimilarProducts";
-
 
 const SingleProduct = () => {
   const classes = useStyles();
@@ -20,10 +19,10 @@ const SingleProduct = () => {
     handleAddcart,
     handleUpdateCart,
     setLoadingCommerce,
-    loadingCommerce
+    loadingCommerce,
   } = useCommerce();
 
-  console.log("🚀 ~ ~ setLoadingCommerce:", loadingCommerce)
+  console.log("🚀 ~ ~ setLoadingCommerce:", loadingCommerce);
 
   const [product, setProduct] = useState([]);
   const [cartItemId, setCardItemId] = useState(null);
@@ -36,15 +35,15 @@ const SingleProduct = () => {
   const [selectedText, setSelectedText] = useState(textVariants[0]);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const product = await getProductById(id);
-      setProduct(product);
-      setLoadingCommerce(false);
-    };
-    if (id) fetchProduct();
-    return () => {
-      setProduct([]);
-    };
+    let mounted = true;
+
+    getProductById(id).then((product) => {
+      if (mounted) {
+        setProduct(product);
+        setLoadingCommerce(false);
+      }
+    });
+    return () => (mounted = false);
   }, [id]);
 
   //get the product cartItem id & current quantity from cartItem array
@@ -65,107 +64,145 @@ const SingleProduct = () => {
   product && console.log(product);
   console.log("cartItems", cartItems);
 
+  //set in wishlist
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  useEffect(() => {
+    // Load wishlisted state from localStorage when component mounts
+    const storedWishlisted = localStorage.getItem(product.id);
+    if (storedWishlisted) {
+      setIsWishlisted(true);
+    }
+  }, [product.id]);
+
+  const handleWishlistClick = () => {
+    // Toggle wishlisted state and update localStorage
+    setIsWishlisted((prevIsWishlisted) => {
+      const newWishlisted = !prevIsWishlisted;
+      if (newWishlisted) {
+        localStorage.setItem(product.id, "true");
+      } else {
+        localStorage.removeItem(product.id);
+      }
+      return newWishlisted;
+    });
+  };
+
   return (
-    <Container className={classes.root}>
-      <div className={classes.top}>
-        <div className={classes.imageContainer}>
-          <img
-            src={product?.media?.source}
-            alt="product"
-            className={classes.image}
-          />
-        </div>
-
-        <div className={classes.rightContent}>
-          <div className={classes.productName}>
-            <h1>{product?.name}</h1>
-          </div>
-          <div className={classes.productPriceQuantity}>
-            <div className={classes.productPrice}>
-              <h1>{`Price: ${product?.price?.raw} TK`}</h1>
-            </div>
-            <div className={classes.productQuantity}>
-              <h1>{`In stock: ${product?.quantity}`}</h1>
-            </div>
-          </div>
-          <div className={classes.productColorVariant}>
-            <span>Colors: </span>
-            <VariantDisplay
-              type="color"
-              values={colorVariants}
-              active={selectedColor}
-              onClickVariant={setSelectedColor}
-            />
-          </div>
-          <div className={classes.productSizeVariant}>
-            <span>Sizes:</span>
-            <VariantDisplay
-              type="text"
-              values={textVariants}
-              selectColor={selectedColor}
-              active={selectedText}
-              onClickVariant={setSelectedText}
+    <>
+      <Container className={classes.root}>
+        <div className={classes.top}>
+          <div className={classes.imageContainer}>
+            <img
+              src={product?.media?.source}
+              alt="product"
+              className={classes.image}
             />
           </div>
 
-          <div className={classes.productButton}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              disabled={product?.quantity - quantity <= 0 ? true : false}
-              onClick={() => handleAddcart(product.id, 1)}
-              className={classes.addButton}
-              style={{
-                width: "40%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <span className={classes.buttonText}>Add to cart</span>
-              <span className={classes.buttonIcon}>
-                <AddShoppingCart
-                  style={{ width: "18px", height: "18px", marginLeft: "6px" }}
-                />
-              </span>
-            </Button>
-            <div className={classes.plusMinusbuttons}>
-              <Button
-                type="button"
-                size="medium"
-                variant="contained"
-                disabled={quantity < 1}
-                color="secondary"
-                className={classes.Button}
-                onClick={() => handleUpdateCart(cartItemId, quantity - 1)}
+          <div className={classes.rightContent}>
+            <div className={classes.rightHeader}>
+              <h1 className={classes.productName}>{product?.name}</h1>
+              <IconButton
+                aria-label="Add to wishlist"
+                onClick={handleWishlistClick}
+                color={isWishlisted ? "secondary" : "default"}
               >
-                -
-              </Button>
-              <Typography variant="body2">{quantity}</Typography>
+                {isWishlisted ? <Favorite /> : <FavoriteBorder />}
+              </IconButton>
+            </div>
+            <div className={classes.productPriceQuantity}>
+              <div className={classes.productPrice}>
+                <h1>{`Price: ${product?.price?.raw} TK`}</h1>
+              </div>
+              <div className={classes.productQuantity}>
+                <h1>{`In stock: ${product?.quantity}`}</h1>
+              </div>
+            </div>
+            <div className={classes.productColorVariant}>
+              <span>Colors: </span>
+              <VariantDisplay
+                type="color"
+                values={colorVariants}
+                active={selectedColor}
+                onClickVariant={setSelectedColor}
+              />
+            </div>
+            <div className={classes.productSizeVariant}>
+              <span>Sizes:</span>
+              <VariantDisplay
+                type="text"
+                values={textVariants}
+                selectColor={selectedColor}
+                active={selectedText}
+                onClickVariant={setSelectedText}
+              />
+            </div>
+
+            <div className={classes.productButton}>
               <Button
-                type="button"
-                size="small"
                 variant="contained"
-                disabled={quantity >= product?.quantity || quantity < 1}
                 color="primary"
-                className={classes.Button}
-                onClick={() => handleUpdateCart(cartItemId, quantity + 1)}
+                size="large"
+                disabled={product?.quantity - quantity <= 0 ? true : false}
+                onClick={() => handleAddcart(product.id, 1)}
+                className={classes.addButton}
+                style={{
+                  width: "40%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                +
+                <span className={classes.buttonText}>Add to cart</span>
+                <span className={classes.buttonIcon}>
+                  <AddShoppingCart
+                    style={{ width: "18px", height: "18px", marginLeft: "6px" }}
+                  />
+                </span>
               </Button>
+              <div className={classes.plusMinusbuttons}>
+                <Button
+                  type="button"
+                  size="medium"
+                  variant="contained"
+                  disabled={quantity < 1}
+                  color="secondary"
+                  className={classes.Button}
+                  onClick={() => handleUpdateCart(cartItemId, quantity - 1)}
+                >
+                  -
+                </Button>
+                <Typography variant="body2">{quantity}</Typography>
+                <Button
+                  type="button"
+                  size="small"
+                  variant="contained"
+                  disabled={quantity >= product?.quantity || quantity < 1}
+                  color="primary"
+                  className={classes.Button}
+                  onClick={() => handleUpdateCart(cartItemId, quantity + 1)}
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+            <div className={classes.multiContent}>
+              <MultiContent product={product} reviews={reviews} />
             </div>
           </div>
-          <div className={classes.multiContent}>
-            <MultiContent product={product} reviews={reviews} />
-          </div>
         </div>
-      </div>
-      <div className={classes.bottom}>
-        {product?.related_products && <SimilarPorducts related_products={product.related_products} handleAddcart={handleAddcart}/>}
-      </div>
-    </Container>
+        <div className={classes.bottom}>
+          {product?.related_products && (
+            <SimilarPorducts
+              related_products={product.related_products}
+              handleAddcart={handleAddcart}
+            />
+          )}
+        </div>
+      </Container>
+    </>
   );
 };
 

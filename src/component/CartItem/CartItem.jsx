@@ -10,12 +10,15 @@ import {
 import { DeleteForever } from "@material-ui/icons";
 import React from "react";
 import useStyles from "./CartItemStyle";
+import { Link } from "react-router-dom";
+
+
 const CartItem = ({ cartItem, handleUpdateCart, handleRemoveCart }) => {
   console.log(cartItem);
 
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{textDecoration: "none"}}>
       <CardContent className={classes.cardContent}>
         <CardMedia
           className={classes.media}
@@ -40,7 +43,7 @@ const CartItem = ({ cartItem, handleUpdateCart, handleRemoveCart }) => {
             size="large"
             color="secondary"
             className={classes.Button}
-            onClick={() => handleUpdateCart(cartItem?.id, cartItem.quantity - 1)}
+            onClick={(e) => {e.stopPropagation();handleUpdateCart(cartItem?.id, cartItem.quantity - 1)}}
           >
             -
           </Button>
@@ -50,19 +53,19 @@ const CartItem = ({ cartItem, handleUpdateCart, handleRemoveCart }) => {
             size="large"
             color="primary"
             className={classes.Button}
-            onClick={() => handleUpdateCart(cartItem?.id, cartItem.quantity + 1)}
+            onClick={(e) => {e.stopPropagation(); handleUpdateCart(cartItem?.id, cartItem.quantity + 1)}}
           >
             +
           </Button>
         </div>
         <div
-          className="removeCart"
+          className={classes.removeButton}
           style={{ display: "flex", alignItems: "center" }}
         >
           <IconButton
             aria-label="Remove from cart"
             color="secondary"
-            onClick={() => handleRemoveCart(cartItem.id)}
+            onClick={(e) => {e.stopPropagation(); handleRemoveCart(cartItem.id)}}
           >
             <DeleteForever />
           </IconButton>

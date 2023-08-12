@@ -18,17 +18,19 @@ export default makeStyles((theme) => ({
     gap:'10px',
     marginTop:'20px',
   },
-  emptyButton: {
-    minWidth: '150px',
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '5px',
-    },
-    [theme.breakpoints.up('xs')]: {
-      marginRight: '20px',
-    },
+  buttonContainer:{
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    gap:'10px',
+    
   },
-  checkoutButton: {
-    minWidth: '150px',
+  subtotal:{
+    fontSize:'1rem',
+    fontWeight:'900',
+    textTransform:'uppercase',
+  letterSpacing:'2px',
+    color:'gray',
   },
   link: {
     textDecoration: 'none',

@@ -54,7 +54,10 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     gap: "8px",
   },
-  productName: {
+  rightHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: theme.spacing(2),
     "& h1": {
       fontSize: "2rem",
       fontWeight: "bold",
@@ -62,7 +65,14 @@ export default makeStyles((theme) => ({
       [theme.breakpoints.down("sm")]: {
         fontSize: "1.5rem",
       },
-
+    },
+    "& svg": {
+      fontSize: "2rem",
+      cursor: "pointer",
+      transition: "all 0.5s ease-in-out",
+      "&:hover": {
+        transform: "scale(1.1)",
+      },
     },
   },
   productPriceQuantity: {
@@ -80,10 +90,10 @@ export default makeStyles((theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       marginBottom: "10px",
-      '& h1':{
+      "& h1": {
         fontSize: ".8rem",
       },
-      '& span':{
+      "& span": {
         fontSize: ".8rem",
       },
     },
@@ -101,7 +111,7 @@ export default makeStyles((theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       gap: theme.spacing(1),
-      '& span':{
+      "& span": {
         fontSize: ".8rem",
       },
     },
@@ -120,7 +130,7 @@ export default makeStyles((theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       gap: theme.spacing(1),
-      '& span':{
+      "& span": {
         fontSize: ".8rem",
         minWidth: "30px",
       },
@@ -143,7 +153,7 @@ export default makeStyles((theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       marginTop: "20px",
-      '& button':{
+      "& button": {
         padding: "10px 15px",
       },
     },

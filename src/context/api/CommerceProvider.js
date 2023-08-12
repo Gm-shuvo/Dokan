@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { commerce } from "../../lib/commerce";
 import { toast } from "react-hot-toast";
 import { TailSpin } from "react-loader-spinner";
+import Loader from "../../component/Loader/Loader";
 
 const CommerceContext = createContext();
 
@@ -16,21 +17,45 @@ export const CommerceProvider = ({ children }) => {
   const [singleProduct, setSingleProduct] = useState({});
   const [order, setOrder] = useState({});
   const [error, setError] = useState(null);
-  const [loadingCommerce, setLoadingCommerce] = useState(false);
+  const [loadingCommerce, setLoadingCommerce] = useState(true);
+
+  console.log("🚀 ~ ~ loadingCommerce:", loadingCommerce)
 
   // Fetching data...
+  const fetchData = async () => {
+    try {
+      const { data } = await commerce.products.list();
+      setProducts(data);
+      
+    } catch (error) {
+      console.log(error);
+    }
+    finally{
+      setLoadingCommerce(false);
+    }
+  };
 
-  
+  const fetchCartItems = async () => {
+    try {
+      setCartItems(await commerce.cart.retrieve());
+      
+    } catch (error) {
+      console.log(error);
+    }
+    finally{
+      setLoadingCommerce(false);
+    }
+  };
 
   const getProductById = async (productId) => {
     try {
       
-      const product = await commerce.products.retrieve(productId);
-      setSingleProduct(product);
-      setLoadingCommerce(false);
-      return product;
+      return await commerce.products.retrieve(productId);
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setLoadingCommerce(false);
     }
   };
 
@@ -113,29 +138,12 @@ export const CommerceProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoadingCommerce(true);
-        const { data } = await commerce.products.list();
-        setProducts(data);
-        setLoadingCommerce(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchCartItems = async () => {
-      try {
-        setLoadingCommerce(true);
-        setCartItems(await commerce.cart.retrieve());
-        setLoadingCommerce(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-    fetchCartItems();
+    let isSubscribed = true;
+    if (isSubscribed) {
+      fetchData();
+      fetchCartItems();
+    }
+    return () => (isSubscribed = false);
   }, []);
 
   const commerceContextValue = {
@@ -160,16 +168,7 @@ export const CommerceProvider = ({ children }) => {
   return (
     <CommerceContext.Provider value={commerceContextValue}>
       {loadingCommerce ? (
-        <TailSpin
-          height="60"
-          width="60"
-          color="#4fa94d"
-          ariaLabel="tail-spin-loading"
-          radius="1"
-          wrapperStyle={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}
-          wrapperClass=""
-          visible={true}
-        />
+        <Loader />
       ) : (
         children
       )}

@@ -43,10 +43,10 @@ const CartItems = () => {
           </Grid>
         ))}
         <div className={classes.cardDetails} style={{}}>
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle2" className={classes.subtotal}>
             Subtotal: {cartItems.subtotal?.formatted_with_symbol}
           </Typography>
-          <div>
+          <div className={classes.buttonContainer}>
             <Button
               size="medium"
               color="secondary"

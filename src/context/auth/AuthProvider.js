@@ -14,6 +14,7 @@ import {
 
 import { app } from "../../firebase/firebase";
 import { TailSpin } from "react-loader-spinner";
+import Loader from "../../component/Loader/Loader";
 
 const AuthContext = createContext();
 const auth = getAuth(app);
@@ -86,16 +87,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={value}>
       {loadingAuth ? (
-        <TailSpin
-          height="60"
-          width="60"
-          color="#4fa94d"
-          ariaLabel="tail-spin-loading"
-          radius="1"
-          wrapperStyle={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}
-          wrapperClass=""
-          visible={true}
-        />
+        <Loader />
       ) : (
         children
       )}
