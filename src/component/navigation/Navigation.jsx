@@ -13,9 +13,8 @@ import {
   Popover,
 } from "@material-ui/core";
 import useStyles from "./NavigationStyle";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
-import { Link } from "react-router-dom";
 import {
   ShoppingCart,
   AccountCircle,
@@ -53,6 +52,8 @@ const Navigation = () => {
   };
 
   const popoverId = popoverOpen ? "avatar-popover" : undefined;
+
+  
 
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
@@ -115,7 +116,7 @@ const Navigation = () => {
                     </ListItemIcon>
                     <ListItemText primary={currentUser?.displayName} />
                   </ListItem>
-                  <ListItem button onClick={handlePopoverClose}>
+                  <ListItem button onClick={() => {history.push("/wishlist");handlePopoverClose()}}>
                     <ListItemIcon>
                       <Favorite />
                     </ListItemIcon>

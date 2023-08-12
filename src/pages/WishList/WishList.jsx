@@ -1,35 +1,68 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import {useStyles} from './WishListStyles';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useStyles } from "./WishListStyles";
+import { useCommerce } from "../../context/api/CommerceProvider";
+import WishListCard from "../../component/Card/WishListCard/WishListCard";
 
 const WishList = () => {
+  const [wishlist, setWishlist] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { getWishlistFromLocalStorage, removeFromWishlist } =
+    useCommerce();
+
+  const EmptyWishList = () => {
+    return (
+      <div className={classes.EmptyWishList}>
+        <h1>WishList is Empty</h1>
+        <Link to="/products" className={classes.ShopNow}>
+          Shop Now
+        </Link>
+      </div>
+    );
+  }
+
+  const removeWishlist = (id) => {
+    removeFromWishlist(id);
+    const wishes = getWishlistFromLocalStorage();
+    setWishlist(wishes);
+  }
   //get the wishlist from local storage
   //map through the wishlist and display the products
   //if the wishlist is empty display a message
-
-  const wishList = JSON.parse(localStorage.getItem('wishList'));
-  console.log("🚀 ~ file: WishList.jsx:11 ~ WishList ~ wishList:", wishList)
+  //if the wishlist is not empty display the products
   
+
+  useEffect(() => {
+    setIsLoading(true);
+    const wishes = getWishlistFromLocalStorage();
+    console.log("🚀 ~ file: WishList.jsx:19 ~ useEffect ~ wishes:", wishes);
+    setWishlist(wishes);
+    setIsLoading(false);
+  }, []);
 
   const classes = useStyles();
   return (
     <div className={classes.root}>
-     <h1 className={classes.Heading}>wish Lists</h1>
+      <h1 className={classes.Heading}>wish Lists</h1>
       <div className={classes.WishList}>
-        <div className={classes.WishListProduct}>
-          <div className={classes.WishListProductImg}>
-            <img src="" alt="" />
+        {wishlist.length === 0 ? (
+          <EmptyWishList/> ):
+        (
+          <div className={classes.Wish}>
+            {wishlist.map((wish) => (
+            <WishListCard
+              key={wish.id}
+              wish={wish}
+              removeFromWishlist={removeWishlist}
+            />
+          ))}
           </div>
-          <div className={classes.WishListProductInfo}>
-            <h3>Product Name</h3>
-            <p>Price</p>
-            <p>Rating</p>
-            <button className={classes.WishListProductBtn}>Add to cart</button>
-          </div>
-        </div>
-    </div>
+        )}
+        
+      </div>
     </div>
   );
-}
+};
 
 export default WishList;

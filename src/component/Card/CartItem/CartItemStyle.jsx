@@ -5,6 +5,11 @@ export default makeStyles(()=>({
         height: 100,
         width: 100,
         backgroundSize:'contain',
+        '& img':{
+          width:'100%',
+          height:'100%',
+          objectFit:'contain',
+        }
       },
       root: {
         display: 'flex',
