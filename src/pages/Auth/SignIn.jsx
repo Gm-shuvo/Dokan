@@ -16,6 +16,7 @@ import { useAuth } from "../../context/auth/AuthProvider";
 import { toast } from "react-hot-toast";
 import { Redirect } from "react-router-dom";
 import { useHistory, useLocation } from "react-router-dom";
+import { Router} from "react-router-dom/cjs/react-router-dom.min";
 
 function Copyright() {
   return (
@@ -56,7 +57,7 @@ export default function SignIn() {
   const history = useHistory();
   const location = useLocation();
 
-  const { emailLogin, loading, setLoading, currentUser } = useAuth();
+  const { emailLogin, loadingAuth, setLoadingAuth, currentUser } = useAuth();
 
   const { from } = location.state || { from: { pathname: "/" } };
 
@@ -72,18 +73,22 @@ export default function SignIn() {
 
     console.log(email, password)
 
-    setLoading(true);
+    
 
     try {
       await emailLogin(email, password);
       toast.success("Login success");
-      setLoading(false);
+      setLoadingAuth(false);
+      return history.replace(from);
       
-      history.replace(from);
     } catch (error) {
       toast.error("Incorrect email or password");
-      setLoading(false);
+      setLoadingAuth(false);
+      
+      
     }
+   
+
   };
 
   return (
@@ -133,7 +138,7 @@ export default function SignIn() {
             type="submit"
             fullWidth
             variant="contained"
-            disabled={loading}
+            disabled={loadingAuth}
             color="primary"
             className={classes.submit}
           >

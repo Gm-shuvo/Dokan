@@ -69,7 +69,6 @@ const Navigation = () => {
           />
         </Link>
 
-        {/*  */}
         <div className={classes.button}>
           <IconButton
             aria-label="show cart items"
@@ -102,7 +101,7 @@ const Navigation = () => {
                 onClose={handlePopoverClose}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "center",
+                  horizontal: "start",
                 }}
                 transformOrigin={{
                   vertical: "top",
@@ -132,7 +131,7 @@ const Navigation = () => {
               </Popover>
             </>
           ) : (
-            <>
+            <div className={classes.auth}>
               <div className={classes.button}>
                 <Button component={Link} to="/signin" color="inherit">
                   Login
@@ -143,7 +142,7 @@ const Navigation = () => {
                   Signup
                 </Button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
