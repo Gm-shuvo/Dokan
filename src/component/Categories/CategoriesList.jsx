@@ -18,6 +18,7 @@ const CatagoriesList = ({categories, handleCategories}) => {
             onClick={() =>{setActive(category.id); handleCategories(category.slug)}}
           >
             {category.name.replace(/\\/g, "")}
+            <span className={classes.count}>{`(${category.products})`}</span>
           </li>
         ))}
       </ul>

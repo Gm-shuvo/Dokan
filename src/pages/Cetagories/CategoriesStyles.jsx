@@ -23,7 +23,11 @@ export const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(2),
       paddingTop: theme.spacing(2),
     },
-    
-
-  }
+  },
+  right:{
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(2),
+    marginTop: theme.spacing(2),
+  },
 }));
