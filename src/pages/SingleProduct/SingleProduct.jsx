@@ -35,15 +35,20 @@ const SingleProduct = () => {
   const [selectedText, setSelectedText] = useState(textVariants[0]);
 
   useEffect(() => {
-    let mounted = true;
-
-    getProductById(id).then((product) => {
-      if (mounted) {
+    const fetchProduct = async () => {
+      try {
+        const product = await getProductById(id);
         setProduct(product);
         setLoadingCommerce(false);
       }
-    });
-    return () => (mounted = false);
+      catch (error) {
+        console.log(error);
+        setLoadingCommerce(false)
+      }
+    }
+    if (id) {
+      fetchProduct();
+    }
   }, [id]);
 
   //get the product cartItem id & current quantity from cartItem array
@@ -66,23 +71,29 @@ const SingleProduct = () => {
 
   //set in wishlist
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const { getWishlistFromLocalStorage, addToWishlist, removeFromWishlist } =
+    useCommerce();
 
   useEffect(() => {
     // Load wishlisted state from localStorage when component mounts
-    const storedWishlisted = localStorage.getItem(product.id);
-    if (storedWishlisted) {
+    const wishes = getWishlistFromLocalStorage();
+    const isWishlisted = wishes.find((wish) => wish.id === id);
+    console.log("🚀 ~ isWishlisted:", isWishlisted)
+    console.log(wishes);
+
+    if (isWishlisted) {
       setIsWishlisted(true);
     }
-  }, [product.id]);
+  }, [id]);
 
   const handleWishlistClick = () => {
     // Toggle wishlisted state and update localStorage
     setIsWishlisted((prevIsWishlisted) => {
       const newWishlisted = !prevIsWishlisted;
       if (newWishlisted) {
-        localStorage.setItem(product.id, "true");
+        addToWishlist(product);
       } else {
-        localStorage.removeItem(product.id);
+        removeFromWishlist(id);
       }
       return newWishlisted;
     });

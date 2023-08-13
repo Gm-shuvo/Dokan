@@ -8,4 +8,5 @@ body{
   font-family:'Ubuntu', sans-serif;;
   background-color: rgba(237, 242, 254, 0.98);
   text-decoration: none;
+  padding: 0;
 }

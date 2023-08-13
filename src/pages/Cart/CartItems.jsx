@@ -1,6 +1,6 @@
 import { Button, Container, Grid, Typography } from "@material-ui/core";
 import React from "react";
-import CartItem from "../../component/CartItem/CartItem";
+import CartItem from "../../component/Card/CartItem/CartItem";
 import useStyles from "./CartItemsStyle";
 import { Link } from "react-router-dom";
 import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";

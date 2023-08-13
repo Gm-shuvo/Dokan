@@ -3,11 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   footer: {
     width: "80%",
-    margin: "120px auto 0 auto",
+    margin: "60vh auto 0 auto",
     borderTop: `1px solid ${theme.palette.divider}`,
     [theme.breakpoints.down("sm")]: {
       width: "90%",
-      margin: "80px auto 0 auto",
+      margin: "60vh auto 0 auto",
     },
   },
 

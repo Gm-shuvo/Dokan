@@ -13,9 +13,8 @@ import {
   Popover,
 } from "@material-ui/core";
 import useStyles from "./NavigationStyle";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
-import { Link } from "react-router-dom";
 import {
   ShoppingCart,
   AccountCircle,
@@ -54,6 +53,8 @@ const Navigation = () => {
 
   const popoverId = popoverOpen ? "avatar-popover" : undefined;
 
+  
+
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
       <div className={classes.wrapper}>
@@ -69,7 +70,6 @@ const Navigation = () => {
           />
         </Link>
 
-        {/*  */}
         <div className={classes.button}>
           <IconButton
             aria-label="show cart items"
@@ -95,18 +95,18 @@ const Navigation = () => {
               >
                 <Avatar>{currentUser?.displayName?.charAt(0)}</Avatar>
               </IconButton>
-              <Popover
+              <Popover className={classes.popover}
                 id={popoverId}
                 open={popoverOpen}
                 anchorEl={anchorEl}
                 onClose={handlePopoverClose}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "center",
+                  horizontal: "right",
                 }}
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "center",
+                  horizontal: "right",
                 }}
               >
                 <List>
@@ -116,7 +116,7 @@ const Navigation = () => {
                     </ListItemIcon>
                     <ListItemText primary={currentUser?.displayName} />
                   </ListItem>
-                  <ListItem button onClick={handlePopoverClose}>
+                  <ListItem button onClick={() => {history.push("/wishlist");handlePopoverClose()}}>
                     <ListItemIcon>
                       <Favorite />
                     </ListItemIcon>
@@ -132,7 +132,7 @@ const Navigation = () => {
               </Popover>
             </>
           ) : (
-            <>
+            <div className={classes.auth}>
               <div className={classes.button}>
                 <Button component={Link} to="/signin" color="inherit">
                   Login
@@ -143,7 +143,7 @@ const Navigation = () => {
                   Signup
                 </Button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
