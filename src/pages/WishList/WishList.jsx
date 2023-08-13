@@ -14,7 +14,11 @@ const WishList = () => {
   const EmptyWishList = () => {
     return (
       <div className={classes.EmptyWishList}>
-        <h1>WishList is Empty</h1>
+        
+        <p>You have no items in your wishlist</p>
+        <div className="">
+          <img src="https://i.ibb.co/p1tvcNm/empty-wishlist.png" alt="empty" />
+        </div>
         <Link to="/products" className={classes.ShopNow}>
           Shop Now
         </Link>
