@@ -8,21 +8,23 @@ import { reviews } from "../../dummyData";
 import { useCommerce } from "../../context/api/CommerceProvider";
 import MultiContent from "../../component/MultiContent/MultiContent";
 import SimilarPorducts from "../../component/SimilarProducts/SimilarProducts";
+import Loader from "../../component/Loader/Loader";
+import { useScrollToTop } from "../../hooks/useScrollTop";
+import { useGlobalLoader } from "../../context/loader/GlobalLoader";
 
 const SingleProduct = () => {
   const classes = useStyles();
   const { id } = useParams();
-
+  
   const {
     cartItems,
     getProductById,
     handleAddcart,
     handleUpdateCart,
-    setLoadingCommerce,
-    loadingCommerce,
+    
   } = useCommerce();
 
-  console.log("🚀 ~ ~ setLoadingCommerce:", loadingCommerce);
+  // console.log("🚀 ~ ~ setLoadingCommerce:", loadingCommerce);
 
   const [product, setProduct] = useState([]);
   const [cartItemId, setCardItemId] = useState(null);
@@ -34,16 +36,21 @@ const SingleProduct = () => {
   const [selectedColor, setSelectedColor] = useState(colorVariants[0]);
   const [selectedText, setSelectedText] = useState(textVariants[0]);
 
+  const { isLoading, showLoader, hideLoader } = useGlobalLoader();
+
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        showLoader();
         const product = await getProductById(id);
         setProduct(product);
-        setLoadingCommerce(false);
+        hideLoader();
       }
       catch (error) {
         console.log(error);
-        setLoadingCommerce(false)
+        hideLoader();
+        
       }
     }
     if (id) {
@@ -71,7 +78,7 @@ const SingleProduct = () => {
 
   //set in wishlist
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const { getWishlistFromLocalStorage, addToWishlist, removeFromWishlist } =
+  const { getWishlistFromLocalStorage, addToWishlist, removeFromWishlist, } =
     useCommerce();
 
   useEffect(() => {
@@ -101,6 +108,9 @@ const SingleProduct = () => {
 
   return (
     <>
+    { isLoading  ? (
+      <Loader />) : (
+        <>
       <Container className={classes.root}>
         <div className={classes.top}>
           <div className={classes.imageContainer}>
@@ -213,6 +223,8 @@ const SingleProduct = () => {
           )}
         </div>
       </Container>
+    </>
+    )}
     </>
   );
 };
