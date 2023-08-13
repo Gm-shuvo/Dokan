@@ -11,11 +11,9 @@ import SigleProduct from "./pages/SingleProduct/SingleProduct";
 import Home from "./pages/Home/Home";
 import ConfirmPage from "./pages/Confirmpage/ConfirmPage";
 import WishList from "./pages/WishList/WishList";
-import Cetagories from "./pages/Cetagories/Cetagories";
+import Cetagories from "./pages/Cetagories/Categories";
 
 const App = () => {
-  
-
   return (
     <>
       <Router>
@@ -28,13 +26,15 @@ const App = () => {
           <Route exact path="/cart">
             <Cart />
           </Route>
-          <Route exact path="/product/:id">
-            <SigleProduct />
-          </Route>
+
           <Route exact path="/products">
             <Cetagories />
           </Route>
-         
+
+          <Route exact path="/product/:id">
+            <SigleProduct />
+          </Route>
+
           <Route exact path="/wishlist">
             <WishList />
           </Route>
@@ -53,6 +53,8 @@ const App = () => {
             path="/checkout"
             component={(props) => <Checkout />}
           />
+
+          {/* Protected Route */}
           <PrivateRoute
             exact
             path="/confirm"

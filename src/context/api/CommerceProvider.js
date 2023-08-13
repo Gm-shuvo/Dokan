@@ -22,15 +22,8 @@ export const CommerceProvider = ({ children }) => {
   console.log("🚀 ~ ~ loadingCommerce:", loadingCommerce);
 
   // Fetching data...
-  const fetchData = async () => {
-    try {
-      const { data } = await commerce.products.list();
-      setProducts(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingCommerce(false);
-    }
+  const fetchData = async (filters = {}) => {
+    return await commerce.products.list(filters);
   };
 
   const fetchCartItems = async () => {
@@ -100,7 +93,17 @@ export const CommerceProvider = ({ children }) => {
   };
 
   //get product by category
-  const getProductByCategory = async (category) => {
+  const getProducCategory = async () => {
+    try {
+      const { data } = await commerce.categories.list();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  const getProducCategoryById = async (category) => {
     try {
       const { data } = await commerce.products.list({
         category_slug: [category],
@@ -151,7 +154,6 @@ export const CommerceProvider = ({ children }) => {
   useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed) {
-      fetchData();
       fetchCartItems();
     }
     return () => (isSubscribed = false);
@@ -161,6 +163,7 @@ export const CommerceProvider = ({ children }) => {
     products,
     cartItems,
     loadingCommerce,
+    fetchData,
     setLoadingCommerce,
     order,
     error,
@@ -171,7 +174,8 @@ export const CommerceProvider = ({ children }) => {
     handleUpdateCart,
     refreshCart,
     handleEmptyCart,
-    getProductByCategory,
+    getProducCategory,
+    getProducCategoryById,
     handleCeckoutCapture,
     // wishlist fuctionality
     getWishlistFromLocalStorage,
