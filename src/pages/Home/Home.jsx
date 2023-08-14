@@ -1,35 +1,65 @@
-import React from "react";
-import Products from "../../component/Hotdeals/Hotdeals";
+import React, { useEffect, useState } from "react";
 import HeroCarousel from "../../component/Carousel/HeroCarousel";
 import useStyle from "./HomeStyle";
 import FeatuerProducts from "../../component/FeatuerProducts/FeatuerProducts";
 import Hotdeals from "../../component/Hotdeals/Hotdeals";
 
 import { useCommerce } from "../../context/api/CommerceProvider";
+import { useGlobalLoader } from "../../context/loader/GlobalLoader";
 import DiscountCard from "../../component/Card/DiscountCard/DiscountCard";
+import Loader from "../../component/Loader/Loader";
 
-const Home = () => {
+const Home = React.memo(() => {
   const classes = useStyle();
-  const { products: productList, handleAddcart: onAddToCart  } = useCommerce();
-  console.log(productList);
-  
-  // productList.map((product) => {
-  //   return productImgs.push(product.media.source);
-  // });
-  // console.log(productImgs);
+  const { fetchData, handleAddcart } = useCommerce();
+  const [productList, setProductList] = useState([]);
+  const { isLoading, showLoader, hideLoader } = useGlobalLoader();
 
-  // const carouselMobileBehavior = {
-  //   showArrows: false,
-  //   showStatus: false,
-  // };
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchProducts = async () => {
+      try {
+        showLoader();
+        const { data } = await fetchData();
+        if (isMounted) {
+          setProductList(data);
+          hideLoader();
+          // setLoading(false); // Set loading to false when data is fetched
+        }
+      } catch (error) {
+        console.log(error);
+        if (isMounted) {
+          hideLoader();
+          // setLoading(false); // Set loading to false on error as well
+        }
+      }
+    };
+    fetchProducts();
+
+    return () => {
+      isMounted = false; // Cleanup on component unmount
+    };
+  }, []);
+
   return (
     <div className={classes.root}>
-      <HeroCarousel/>
-      <FeatuerProducts/>
-      <Hotdeals productList={productList} onAddToCart={onAddToCart} />
-      <DiscountCard />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <HeroCarousel />
+          <FeatuerProducts />
+          <Hotdeals
+            productList={productList}
+            handleAddcart={handleAddcart}
+            isLoading={isLoading}
+          />
+          <DiscountCard />
+        </>
+      )}
     </div>
   );
-}
+});
 
 export default Home;

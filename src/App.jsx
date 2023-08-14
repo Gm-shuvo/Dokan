@@ -12,11 +12,13 @@ import Home from "./pages/Home/Home";
 import ConfirmPage from "./pages/Confirmpage/ConfirmPage";
 import WishList from "./pages/WishList/WishList";
 import Cetagories from "./pages/Cetagories/Categories";
+import ScrollToTop from "./component/ScrollTop";
 
 const App = () => {
   return (
     <>
       <Router>
+        <ScrollToTop />
         <Navbar />
         <Switch>
           <Route exact path="/">

@@ -13,8 +13,6 @@ import {
 } from "firebase/auth";
 
 import { app } from "../../firebase/firebase";
-import { TailSpin } from "react-loader-spinner";
-import Loader from "../../component/Loader/Loader";
 
 const AuthContext = createContext();
 const auth = getAuth(app);
@@ -24,7 +22,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -44,8 +42,6 @@ export const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
 
-  console.log(currentUser);
-
   const updateUser = (userInfo) => {
     return updateProfile(auth.currentUser, userInfo);
   };
@@ -59,10 +55,11 @@ export const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, provider);
   };
 
+  // console.log('Loading Auth', loadingAuth)
+  // console.log(currentUser);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      setIsAuthenticated(true);
       setLoadingAuth(false);
     });
     return unsubscribe;
@@ -84,15 +81,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {loadingAuth ? (
-        <Loader />
-      ) : (
-        children
-      )}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

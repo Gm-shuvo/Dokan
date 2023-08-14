@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Avatar,
@@ -20,6 +20,7 @@ import {
   AccountCircle,
   ExitToApp,
   Favorite,
+  Filter9PlusRounded,
 } from "@material-ui/icons";
 import { useAuth } from "../../context/auth/AuthProvider";
 import { useCommerce } from "../../context/api/CommerceProvider";
@@ -28,11 +29,23 @@ const Navigation = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { currentUser, logout, setIsAuthenticated } = useAuth();
+  const { currentUser, logout, loadingAuth, setLoadingAuth } = useAuth();
   const { cartItems } = useCommerce();
 
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  //get the current window width
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  //set the current window width to the state
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  console.log(windowWidth);
 
   const handleAvatarClick = (event) => {
     setPopoverOpen(true);
@@ -47,13 +60,11 @@ const Navigation = () => {
   const handleLogout = () => {
     handlePopoverClose();
     logout();
-    setIsAuthenticated(false);
+
     history.push("/");
   };
 
   const popoverId = popoverOpen ? "avatar-popover" : undefined;
-
-  
 
   return (
     <AppBar position="fixed" className={classes.appBar} color="inherit">
@@ -70,81 +81,140 @@ const Navigation = () => {
           />
         </Link>
 
-        <div className={classes.button}>
-          <IconButton
-            aria-label="show cart items"
-            color="inherit"
-            component={Link}
-            to="/cart"
-          >
-            <Badge
-              badgeContent={cartItems.total_items}
-              color="secondary"
-              overlap="rectangular"
+        <div className={classes.navRight}>
+          <div className={classes.navLinks}>
+            <Button className={classes.navLink} component={Link} to="/products">
+              Products
+            </Button>
+            <Button className={classes.navLink} component={Link} to="/wishlist">
+              Wishlist
+            </Button>
+          </div>
+          <div className={classes.navButons}>
+            <IconButton
+              aria-label="show cart items"
+              color="inherit"
+              component={Link}
+              to="/cart"
             >
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
+              <Badge
+                badgeContent={cartItems.total_items}
+                color="secondary"
+                overlap="rectangular"
+              >
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
 
-          {currentUser ? (
-            <>
-              <IconButton
-                aria-describedby={popoverId}
-                onClick={handleAvatarClick}
-                color="inherit"
-              >
-                <Avatar>{currentUser?.displayName?.charAt(0)}</Avatar>
-              </IconButton>
-              <Popover className={classes.popover}
-                id={popoverId}
-                open={popoverOpen}
-                anchorEl={anchorEl}
-                onClose={handlePopoverClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-              >
-                <List>
-                  <ListItem button onClick={handlePopoverClose}>
-                    <ListItemIcon>
-                      <AccountCircle />
-                    </ListItemIcon>
-                    <ListItemText primary={currentUser?.displayName} />
-                  </ListItem>
-                  <ListItem button onClick={() => {history.push("/wishlist");handlePopoverClose()}}>
-                    <ListItemIcon>
-                      <Favorite />
-                    </ListItemIcon>
-                    <ListItemText primary="Wishlist" />
-                  </ListItem>
-                  <ListItem button onClick={handleLogout}>
-                    <ListItemIcon>
-                      <ExitToApp />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                  </ListItem>
-                </List>
-              </Popover>
-            </>
-          ) : (
-            <div className={classes.auth}>
-              <div className={classes.button}>
-                <Button component={Link} to="/signin" color="inherit">
-                  Login
-                </Button>
+            {currentUser ? (
+              <div className={classes.authButton}>
+                <IconButton
+                  aria-describedby={popoverId}
+                  onClick={handleAvatarClick}
+                  color="inherit"
+                  className={classes.avatarButton}
+                >
+                  <Avatar>{currentUser?.displayName?.charAt(0)}</Avatar>
+                </IconButton>
+                <Popover
+                  className={classes.popover}
+                  id={popoverId}
+                  open={popoverOpen}
+                  anchorEl={anchorEl}
+                  onClose={handlePopoverClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                >
+                  <List className={classes.listPopOver}>
+                    <ListItem
+                      button
+                      onClick={handlePopoverClose}
+                      className={classes.listItemPopOver}
+                    >
+                      <ListItemIcon>
+                        <AccountCircle />
+                      </ListItemIcon>
+                      <ListItemText primary={currentUser?.displayName} />
+                    </ListItem>
+                    {windowWidth <= 960 ? (
+                      <>
+                        <ListItem
+                          button
+                          onClick={() => {
+                            history.push("/products");
+                            handlePopoverClose();
+                          }}
+                          className={classes.listItemPopOver}
+                        >
+                          <ListItemIcon>
+                            <Filter9PlusRounded />
+                          </ListItemIcon>
+                          <ListItemText primary="Products" />
+                        </ListItem>
+                        <ListItem
+                          button
+                          onClick={() => {
+                            history.push("/wishlist");
+                            handlePopoverClose();
+                          }}
+                          className={classes.listItemPopOver}
+                        >
+                          <ListItemIcon>
+                            <Favorite />
+                          </ListItemIcon>
+                          <ListItemText primary="Wishlist" />
+                        </ListItem>
+                      </>
+                    ) : null}
+                    <ListItem
+                      button
+                      onClick={handleLogout}
+                      className={classes.listItemPopOver}
+                    >
+                      <ListItemIcon>
+                        <ExitToApp />
+                      </ListItemIcon>
+                      <ListItemText primary="Logout" />
+                    </ListItem>
+                  </List>
+                </Popover>
               </div>
-              <div className={classes.button}>
-                <Button component={Link} to="/signup" color="inherit">
-                  Signup
-                </Button>
-              </div>
-            </div>
-          )}
+            ) : (
+              <>
+                {!loadingAuth ? (
+                  <>
+                    <Button
+                      className={classes.loginButton}
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        history.push("/signin");
+                      }}
+                    >
+                      Login
+                    </Button>
+
+                    <Button
+                      className={classes.loginButton}
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        history.push("/signup");
+                      }}
+                    >
+                      Signup
+                    </Button>
+                  </>
+                ) : null}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </AppBar>

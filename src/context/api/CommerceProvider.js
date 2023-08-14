@@ -17,23 +17,33 @@ export const CommerceProvider = ({ children }) => {
   const [singleProduct, setSingleProduct] = useState({});
   const [order, setOrder] = useState({});
   const [error, setError] = useState(null);
-  const [loadingCommerce, setLoadingCommerce] = useState(true);
+  // const [loadingCommerce, setLoadingCommerce] = useState(true);
 
-  console.log("🚀 ~ ~ loadingCommerce:", loadingCommerce);
+  // console.log("🚀 ~ ~ loadingCommerce:", loadingCommerce);
 
   // Fetching data...
   const fetchData = async (filters = {}) => {
     return await commerce.products.list(filters);
   };
 
+  // const fetchProducts = async () => {
+  //   try {
+  //     setLoadingCommerce(true);
+  //     const { data } = await fetchData();
+  //     setProducts(data);
+  //     setLoadingCommerce(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoadingCommerce(false);
+  //   }
+  // }
+
   const fetchCartItems = async () => {
     try {
       setCartItems(await commerce.cart.retrieve());
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoadingCommerce(false);
-    }
+    } 
   };
 
   const getProductById = async (productId) => {
@@ -162,9 +172,9 @@ export const CommerceProvider = ({ children }) => {
   const commerceContextValue = {
     products,
     cartItems,
-    loadingCommerce,
+    
     fetchData,
-    setLoadingCommerce,
+    
     order,
     error,
     getProductById,
@@ -185,7 +195,7 @@ export const CommerceProvider = ({ children }) => {
 
   return (
     <CommerceContext.Provider value={commerceContextValue}>
-      {loadingCommerce ? <Loader /> : children}
+      { children}
     </CommerceContext.Provider>
   );
 };
