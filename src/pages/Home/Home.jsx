@@ -8,7 +8,6 @@ import { useCommerce } from "../../context/api/CommerceProvider";
 import { useGlobalLoader } from "../../context/loader/GlobalLoader";
 import DiscountCard from "../../component/Card/DiscountCard/DiscountCard";
 import Loader from "../../component/Loader/Loader";
-import { useScrollToTop } from "../../hooks/useScrollTop";
 
 const Home = React.memo(() => {
   const classes = useStyle();
@@ -16,9 +15,6 @@ const Home = React.memo(() => {
   const [productList, setProductList] = useState([]);
   const { isLoading, showLoader, hideLoader } = useGlobalLoader();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [window.location.pathname]);
 
   useEffect(() => {
     let isMounted = true;

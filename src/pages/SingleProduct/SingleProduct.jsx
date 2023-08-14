@@ -9,7 +9,6 @@ import { useCommerce } from "../../context/api/CommerceProvider";
 import MultiContent from "../../component/MultiContent/MultiContent";
 import SimilarPorducts from "../../component/SimilarProducts/SimilarProducts";
 import Loader from "../../component/Loader/Loader";
-import { useScrollToTop } from "../../hooks/useScrollTop";
 import { useGlobalLoader } from "../../context/loader/GlobalLoader";
 
 const SingleProduct = () => {
